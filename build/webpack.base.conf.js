@@ -1,5 +1,6 @@
 'use strict'
 const path = require('path')
+const webpack = require('webpack')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
@@ -22,7 +23,10 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: './src/main.js',
+    vendor: [
+      'axios',
+    ]
   },
   output: {
     path: config.build.assetsRoot,
@@ -77,6 +81,14 @@ module.exports = {
       }
     ]
   },
+  // 插件项
+  plugins: [
+    // 定义全局引用
+    new webpack.ProvidePlugin({
+      axios: 'axios',
+      'window.axios': 'axios',
+    })
+  ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).

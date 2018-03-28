@@ -1,6 +1,6 @@
 # blog
 
-> personal website front end
+> A Vue.js project
 
 ## Build Setup
 
