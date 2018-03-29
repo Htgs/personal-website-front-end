@@ -3,6 +3,11 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const env = require('../env.js')
+const proxyTableOptions = {
+    target: `${env.protocol}://${env.origin}:${env.port}`,
+    changeOrigin: true
+}
 
 module.exports = {
   dev: {
@@ -10,7 +15,9 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+        '/api/**': proxyTableOptions,
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

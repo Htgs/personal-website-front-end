@@ -1,18 +1,18 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import * as mt from './mutations_types'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import * as mt from './mutations_types';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 // initial state
 const state = {
 	userinfo: {},
-}
+};
 
 // getters
 const getters = {
 	// userinfo: state => state.userinfo,
-}
+};
 
 // actions
 const actions = {
@@ -40,7 +40,7 @@ const actions = {
 		// 	}
 		// })
 	},
-}
+};
 
 // mutations
 const mutations = {
@@ -49,12 +49,12 @@ const mutations = {
 			state.userInfo[v] = user[v]
 		})
 	},
-}
+};
 
 const store = new Vuex.Store({
 	state,
 	getters,
 	actions,
 	mutations
-})
+});
 export default store
