@@ -17,6 +17,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api/**': proxyTableOptions,
+        '/**': proxyTableOptions,
     },
 
     // Various Dev Server settings

@@ -28,7 +28,7 @@ const actions = {
 	 * @param    {Object}        options.params [ajax请求所需参数，默认{}]
 	 * @return   {[Promise]}                    [返回一个promise函数]
 	 */
-	getStaticData ({ state, commit }, { vm, arr, url, params = {} }) {
+	getStaticData({ state, commit }, { vm, arr, url, params = {} }) {
 		// return new Promise(resolve => {
 		// 	if (state[arr].length > 0) {
 		// 		resolve(state[arr])
@@ -44,10 +44,10 @@ const actions = {
 
 // mutations
 const mutations = {
-	[mt.SET_USERINFO] (state, user) {
+	[mt.SET_USERINFO](state, user) {
 		Object.keys(user).forEach(v => {
-			state.userInfo[v] = user[v]
-		})
+			state.userInfo[v] = user[v];
+		});
 	},
 };
 
@@ -57,4 +57,5 @@ const store = new Vuex.Store({
 	actions,
 	mutations
 });
-export default store
+
+export default store;
