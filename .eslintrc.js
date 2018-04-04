@@ -33,6 +33,7 @@ module.exports = {
     "eqeqeq": 0,
     "semi": [2, "always"],
     "one-var": 0,
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    'no-useless-escape': 0
   }
 }

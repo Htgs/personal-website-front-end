@@ -46,8 +46,11 @@ const actions = {
 const mutations = {
 	[mt.SET_USERINFO](state, user) {
 		Object.keys(user).forEach(v => {
-			state.userInfo[v] = user[v];
+			state.userinfo[v] = user[v];
 		});
+	},
+	[mt.CLEAR_USERINFO](state) {
+		state.userinfo = {};
 	},
 };
 

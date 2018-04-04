@@ -50,32 +50,63 @@ Object.keys(ElementComponents).forEach(elComponent => {
 const {ajax} = ajaxApis;
 const {urlPrefix} = utils;
 
-router.beforeEach((to, from, next) => {
-	// console.log(to);
-	// console.log(from);
-	// if (to.path === from.path) {
-	// 	ajax('get', urlPrefix('auth'))
-	// 		.then(res => {
-	// 			console.log(res);
-	// 			next();
-	// 		})
-	// 		.catch(err => {
-	// 			// 未登录直接跳转到登录页面
-	// 			if (err.response.status === 401) {
-	// 				next('/login');
-	// 			}
-	// 		});
-	// } else {
-	// 	next();
-	// }
-	next();
-});
+// router.beforeEach((to, from, next) => {
+// 	// console.log(to);
+// 	// console.log(from);
+// 	// if (to.path === from.path) {
+// 	// 	ajax('get', urlPrefix('auth'))
+// 	// 		.then(res => {
+// 	// 			console.log(res);
+// 	// 			next();
+// 	// 		})
+// 	// 		.catch(err => {
+// 	// 			// 未登录直接跳转到登录页面
+// 	// 			if (err.response.status === 401) {
+// 	// 				next('/login');
+// 	// 			}
+// 	// 		});
+// 	// } else {
+// 	// 	next();
+// 	// }
+// 	next();
+// });
 
-router.afterEach((to, from) => {
-	// ...
-});
+// router.afterEach((to, from) => {
+// 	// ...
+// });
 
 // Vue.config.productionTip = false;
+
+/* eslint-disable no-new */
+// new Vue({
+// 	el: '#app',
+// 	router,
+// 	store,
+// 	components: { App },
+// 	template: '<App/>'
+// });
+
+// Add a response interceptor
+axios.interceptors.response.use(function(response) {
+	// Do something with response data
+	return response;
+}, function(error) {
+	// Do something with response error
+	let msg = '';
+	if (error.response && error.response.status === 401) {
+		msg = '未登录或者权限不足';
+	} else if (error.response && error.response.status === 404) {
+		msg = '请求接口不存在';
+	} else if (error.response && error.response.status === 500) {
+		msg = '服务器错误';
+	} else if (error.response && error.response.status === 504) {
+		msg = '请求超时';
+	} else {
+		msg = '请求错误';
+	}
+	error = Object.assign(error, {msg: msg});
+	return Promise.reject(error);
+});
 
 ajax('get', urlPrefix('token'))
 	.then(res => {
@@ -88,29 +119,6 @@ ajax('get', urlPrefix('token'))
 			// Do something with request error
 			return Promise.reject(error);
 		});
-
-		// Add a response interceptor
-		axios.interceptors.response.use(function(response) {
-			// Do something with response data
-			return response;
-		}, function(error) {
-			// Do something with response error
-			// if (error.response && error.response.status === 401) {
-			//     if (error.config.url !== '/user/auth') {
-			//         message.error('未登录或者权限不足')
-			//     }
-			// } else if (error.response && error.response.status === 404) {
-			//     message.error('接口不存在')
-			// } else if (error.response && error.response.status === 500) {
-			//     message.error('服务器错误')
-			// } else if (error.response && error.response.status === 504) {
-			//     message.error('请求超时')
-			// } else {
-			//     message.error('请求错误')
-			// }
-			return Promise.reject(error);
-		});
-		/* eslint-disable no-new */
 		new Vue({
 			el: '#app',
 			router,
