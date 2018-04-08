@@ -6,14 +6,30 @@ import Home from '@/views/home';
 import Login from '@/views/login';
 import NotFound from '@/views/notfound';
 
+import Index from '@/components/index';
+import Model from '@/components/model';
+
 Vue.use(Router);
 
 export default new Router({
 	routes: [
 		{
-			path: '/home',
+			path: '/',
 			name: 'Home',
-			component: Home
+			redirect: '/home',
+			component: Home,
+			children: [
+				{
+					path: '/home',
+					name: 'Index',
+					component: Index
+				},
+				{
+					path: '/home/:model',
+					name: 'Model',
+					component: Model
+				},
+			],
 		},
 		{
 			path: '/login',

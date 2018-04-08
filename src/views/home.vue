@@ -13,7 +13,9 @@
 			<el-aside width="201px">
 				<Navmenu class="h100"/>
 			</el-aside>
-			<el-main>Main</el-main>
+			<el-main>
+				<router-view/>
+			</el-main>
 		</el-container>
 	</el-container>
 </template>
@@ -60,7 +62,7 @@ export default {
 				.catch(err => {
 					console.log(err);
 				});
-		}
+		},
 	},
 };
 </script>

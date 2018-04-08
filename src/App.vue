@@ -43,7 +43,7 @@ export default {
 		ajax('get', urlPrefix('auth'))
 			.then(res => {
 				this.$store.commit('SET_USERINFO', res.data);
-				this.$router.push('/home');
+				this.$router.push('/');
 			})
 			.catch(err => {
 				if (err.response.status === 401) {

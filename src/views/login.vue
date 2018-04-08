@@ -98,7 +98,7 @@ export default {
 					ajax('post', `/login`, data)
 						.then(res => {
 							this.$store.commit('SET_USERINFO', res.data);
-							this.$router.push('/home');
+							this.$router.push('/');
 						})
 						.catch(err => {
 							console.dir(err);
