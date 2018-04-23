@@ -1,4 +1,4 @@
-const ajax = {
+module.exports = {
 	/**
 	 * axios简单封装
 	 * @Author   szh
@@ -41,5 +41,3 @@ const ajax = {
 		return axios[type](url, datas, config);
 	},
 };
-
-export default ajax;

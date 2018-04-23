@@ -1,11 +1,12 @@
 <template>
 	<el-container class="h100">
 		<el-header :style="{backgroundColor: '#545c64'}">
-			<h1 class="pull-left h100 fz-18 title">b</h1>
+			<h1 class="pull-left h100 fz-18 title">个人网站后台管理</h1>
 			<el-dropdown class="pull-right mt-10" split-button @click="handleClick" @command="handleCommand">
-				我的
+				首页
 				<el-dropdown-menu slot="dropdown">
-				<el-dropdown-item command="logout">退出</el-dropdown-item>
+					<el-dropdown-item command="my">我的</el-dropdown-item>
+					<el-dropdown-item command="logout">退出</el-dropdown-item>
 				</el-dropdown-menu>
 			</el-dropdown>
 		</el-header>
@@ -25,10 +26,8 @@
 import Navmenu from '../components/navmenu.vue';
 
 import {mapState} from 'vuex';
-import ajaxApis from '../utils/ajax.js';
-import utils from '../utils/utils.js';
-const {ajax} = ajaxApis;
-const {urlPrefix} = utils;
+import {ajax} from '../utils/ajax.js';
+import {urlPrefix} from '../utils/utils.js';
 export default {
 	name: 'Home',
 	components: {
@@ -37,19 +36,20 @@ export default {
 	computed: {
 		...mapState(['userinfo']),
 	},
-	data() {
-		return {
-		};
-	},
-	mounted() {
-		console.log(this.userinfo);
-	},
 	methods: {
 		handleClick() {
-			console.log(1);
+			this.$router.history.push('/home');
 		},
 		handleCommand(command) {
 			this[command]();
+		},
+		my() {
+			this.$router.history.push({
+				name: 'Model',
+				params: {
+					model: 'user-info',
+				},
+			});
 		},
 		logout() {
 			ajax('get', '/logout')

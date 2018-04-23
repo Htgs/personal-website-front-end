@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import ajaxApis from './utils/ajax.js';
-import utils from './utils/utils.js';
-const {ajax} = ajaxApis;
-const {urlPrefix} = utils;
+import {mapState} from 'vuex';
+import {ajax} from './utils/ajax.js';
+import {urlPrefix} from './utils/utils.js';
+
 export default {
 	name: 'App',
 	// beforeRouteEnter(to, from, next) {
@@ -40,21 +40,34 @@ export default {
 	// 	next();
 	// },
 	beforeMount() {
-		ajax('get', urlPrefix('auth'))
-			.then(res => {
-				this.$store.commit('SET_USERINFO', res.data);
-				this.$router.push('/');
-			})
-			.catch(err => {
-				if (err.response.status === 401) {
-					this.$router.push('/login');
-				}
-			});
+		this.auth();
 	},
+	computed: {
+		...mapState(['userinfo'])
+	},
+	methods: {
+		auth() {
+			ajax('get', urlPrefix('auth'))
+				.then(res => {
+					this.$store.commit('SET_USERINFO', res.data);
+					if (this.$route.path.indexOf('login') > -1) {
+						this.$router.push('/');
+					}
+				})
+				.catch(err => {
+					if (err.response.status === 401) {
+						this.$router.push('/login');
+					}
+				});
+		}
+	},
+	watch: {
+		// '$route'(to, from) {
+		// 	// 路径为home
+		// 	if (to.path.indexOf('/home') > -1) {
+		// 		this.auth();
+		// 	}
+		// }
+	}
 };
 </script>
-
-<style>
-	#app {
-	}
-</style>

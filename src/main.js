@@ -11,8 +11,8 @@ import locale from 'element-ui/lib/locale';
 // 引入elementui
 import ElementComponents from './assets/elementui.js';
 
-import ajaxApis from './utils/ajax.js';
-import utils from './utils/utils.js';
+import {ajax} from './utils/ajax.js';
+import {urlPrefix} from './utils/utils.js';
 
 // 引入样式
 require('../static/style/index.scss');
@@ -46,9 +46,6 @@ Object.keys(ElementComponents).forEach(elComponent => {
 		Vue.use(ElementComponents[elComponent]);
 	}
 });
-
-const {ajax} = ajaxApis;
-const {urlPrefix} = utils;
 
 // router.beforeEach((to, from, next) => {
 // 	// console.log(to);

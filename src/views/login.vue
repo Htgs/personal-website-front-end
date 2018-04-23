@@ -39,12 +39,9 @@
 </template>
 
 <script>
-import ajaxApis from '../utils/ajax.js';
-import utils from '../utils/utils.js';
-import validation from '../utils/validation.js';
-const {ajax} = ajaxApis;
-const {urlPrefix} = utils;
-const {email} = validation;
+import {ajax} from '../utils/ajax.js';
+import {urlPrefix} from '../utils/utils.js';
+import {email} from '../utils/validation.js';
 export default {
 	name: 'Login',
 	data() {

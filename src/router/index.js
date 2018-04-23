@@ -6,8 +6,8 @@ import Home from '@/views/home';
 import Login from '@/views/login';
 import NotFound from '@/views/notfound';
 
-import Index from '@/components/index';
-import Model from '@/components/model';
+import Index from '@/views/home/index.vue';
+import Model from '@/views/home/model.vue';
 
 Vue.use(Router);
 
@@ -25,8 +25,13 @@ export default new Router({
 					component: Index
 				},
 				{
-					path: '/home/:model',
+					path: '/:model',
 					name: 'Model',
+					component: Model
+				},
+				{
+					path: '/:model/:id',
+					name: 'ModelDetail',
 					component: Model
 				},
 			],
