@@ -9,9 +9,9 @@
 	</el-button>
 </template>
 <script>
-import { isFunction } from '../utils/utils';
+import { isFunction } from '../../utils/utils';
 export default {
-	name: 'commonElButton',
+	name: 'ElButton',
 	props: {
 		params: {
 			type: Object,

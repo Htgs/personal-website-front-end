@@ -12,6 +12,7 @@
 </template>
 <script>
 export default {
+	name: 'TablePopover',
 	props: {
 		row: Object,
 		field: String,

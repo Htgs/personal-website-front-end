@@ -61,9 +61,9 @@
 	</div>
 </template>
 <script>
-import validator from '../utils/validation.js';
+import validator from '../../utils/validation.js';
 export default {
-	name: 'commonFormItem',
+	name: 'FormItem',
 	props: {
 		commonFormData: Object,
 		// 用于check验证路径

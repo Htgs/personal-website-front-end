@@ -81,12 +81,12 @@
 					v-on:customEv="emitOperationBtn"
 				/>
 				<!-- 新增按钮 -->
-				<commonElButton
+				<ElButton
 					v-if="hasConditionAdd"
 					v-on:add="add"
 				/>
 				<!-- 刷新按钮 -->
-				<commonElButton
+				<ElButton
 					v-if="hasConditionRefresh"
 					:params="conditionRefreshSetting"
 					v-on:refresh="refresh"
@@ -178,7 +178,7 @@
 		</div> -->
 		<!-- 独立出主体表格组件 -->
 		<div class="common-table mt-10">
-			<commonTable
+			<Table
 				v-loading.body="tableLoading"
 				:hasTableSelection="hasTableSelection"
 				:hasTableIndex="hasTableIndex"
@@ -203,7 +203,7 @@
 		<div class="common-pagination p-10">
 			<div class="pagination-opt pull-left">
 				<!-- 分页批量删除按钮 -->
-				<commonElButton
+				<ElButton
 					v-if="hasPaginationBatchDestroy"
 					:params="paginationBatchDestroySetting"
 					v-on:batchDestroy="batchDestroy"
@@ -228,7 +228,7 @@
 		</div>
 
 		<!-- 表单对话框 -->
-		<commonFormDialog
+		<FormDialog
 			ref="commonFormDialog"
 			:commonFormVisible="formVisible"
 			:commonFormData="formData"
@@ -238,7 +238,7 @@
 			v-on:closeDialog="emitCloseDialog"
 		/>
 		<!-- 删除对话框 -->
-		<commonDeleteDialog
+		<DeleteDialog
 			:commonDeleteVisible="deleteVisible"
 			:commonDeleteData="deleteData"
 			v-on:destroy="emitDialogDestroy"
@@ -259,25 +259,25 @@
 
 <script>
 // serializeData 为ajax提交数据之前序列化方法
-import { isFunction, serializeData } from '../utils/utils.js';
-import { index, show, store, edit, update, destroy, batchDestroy, status } from '../utils/commonApi.js';
+import { isFunction, serializeData } from '../../utils/utils.js';
+import { index, show, store, edit, update, destroy, batchDestroy, status } from '../../utils/commonApi.js';
 
 // import ajax from '../../utils/commonApi.js'
 
-import commonElSelect from './commonElSelect.vue';
-import commonElButton from './commonElButton.vue';
-import commonFormDialog from './commonFormDialog.vue';
-import commonDeleteDialog from './commonDeleteDialog.vue';
-import commonTable from './commonTable.vue';
+import ElSelect from './ElSelect.vue';
+import ElButton from './ElButton.vue';
+import FormDialog from './FormDialog.vue';
+import DeleteDialog from './DeleteDialog.vue';
+import Table from './Table.vue';
 
 export default {
 	name: 'commonMain',
 	components: {
-		commonElSelect,
-		commonElButton,
-		commonFormDialog,
-		commonDeleteDialog,
-		commonTable,
+		ElSelect,
+		ElButton,
+		FormDialog,
+		DeleteDialog,
+		Table,
 	},
 	props: {
 		model: Object,

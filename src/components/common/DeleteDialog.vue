@@ -10,7 +10,7 @@
 </template>
 <script>
 export default {
-	name: 'commondeletedialog',
+	name: 'Deletedialog',
 	props: {
 		commonDeleteVisible: {
 			type: Boolean,

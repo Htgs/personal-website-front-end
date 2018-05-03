@@ -10,7 +10,7 @@
 </template>
 <script>
 export default {
-	name: 'commonElSelect',
+	name: 'ElSelect',
 	props: {
 		params: {
 			type: Object,

@@ -1,17 +1,10 @@
-import tablePopover from '../../../components/commonTablePopover.vue';
-import Uploader from '../../../components/commonUploader.vue';
+import tablePopover from '../../../components/common/TablePopover.vue';
+import FormELUpload from '../../../components/common/FormELUpload.vue';
 // import validtor from '../../../../public/utils/validator.js'
 // import { ajax } from '../../../../public/utils/ajax.js'
 import {isArray, isObject} from '../../../utils/utils.js';
-
-function customSerializeFn(item) {
-	let obj = {};
-	if (item.value instanceof Blob) {
-		obj['_hasfile'] = true;
-	}
-	obj[item['field']] = item['value'];
-	return obj;
-}
+import {FormELUpload as avatarSerialize} from '../../../utils/customSerializeFn.js';
+import {FormELUpload as avatarEdit} from '../../../utils/customEditFn.js';
 
 const user = {
 	// 是否显示设置
@@ -164,12 +157,13 @@ const user = {
 						value: null,
 					},
 					{
-						component: Uploader,
+						component: FormELUpload,
 						field: 'avatar',
 						label: '头像',
 						required: false,
-						value: null,
-						customSerializeFn: customSerializeFn
+						value: [],
+						customSerializeFn: avatarSerialize,
+						customEditFn: avatarEdit,
 					},
 					{
 						component: 'ElInput',

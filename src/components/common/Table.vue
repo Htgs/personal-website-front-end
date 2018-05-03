@@ -48,14 +48,14 @@
 			align="center">
 			<template slot-scope="scope">
 				<!-- 表格编辑 -->
-				<commonElButton
+				<ElButton
 					v-if="hasTableOperationEdit"
 					:params="tableEditSetting"
 					:scope="scope"
 					v-on:edit="tableEdit"
 				/>
 				<!-- 表格删除 -->
-				<commonElButton
+				<ElButton
 					v-if="hasTableOperationDelete"
 					:params="tableDeleteSetting"
 					:scope="scope"
@@ -75,11 +75,11 @@
 	</el-table>
 </template>
 <script>
-import commonElButton from './commonElButton.vue';
+import ElButton from './ElButton.vue';
 export default {
-	name: 'commonTable',
+	name: 'Table',
 	components: {
-		commonElButton,
+		ElButton,
 	},
 	props: {
 		// 设置是否需要

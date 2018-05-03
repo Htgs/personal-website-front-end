@@ -9,7 +9,7 @@
 </template>
 <script>
 import theModel from './model.js';
-import commonMain from '@/components/commonMain.vue';
+import commonMain from '@/components/common/commonMain.vue';
 export default {
 	name: 'Model',
 	components: {
