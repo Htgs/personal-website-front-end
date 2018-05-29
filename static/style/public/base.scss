@@ -81,10 +81,6 @@ input[type=text] {
 	color: #fff;
 }
 
-.mainColor {
-	color: $mainColor;
-}
-
 $dirs: bottom, left, top, right;
 @each $dir in $dirs {
 	@include angle($dir, 10px, #fff)

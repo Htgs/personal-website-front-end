@@ -1,10 +1,10 @@
 import tablePopover from '../../../components/common/TablePopover.vue';
-import FormELUpload from '../../../components/common/FormELUpload.vue';
+import FormElUpload from '../../../components/common/FormElUpload.vue';
 // import validtor from '../../../../public/utils/validator.js'
 // import { ajax } from '../../../../public/utils/ajax.js'
 import {isArray, isObject} from '../../../utils/utils.js';
-import {FormELUpload as avatarSerialize} from '../../../utils/customSerializeFn.js';
-import {FormELUpload as avatarEdit} from '../../../utils/customEditFn.js';
+import {FormElUpload as avatarSerialize} from '../../../utils/customSerializeFn.js';
+import {FormElUpload as avatarEdit} from '../../../utils/customEditFn.js';
 
 const user = {
 	// 是否显示设置
@@ -157,7 +157,7 @@ const user = {
 						value: null,
 					},
 					{
-						component: FormELUpload,
+						component: FormElUpload,
 						field: 'avatar',
 						label: '头像',
 						required: false,

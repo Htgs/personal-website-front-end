@@ -6,21 +6,10 @@ $baseFontSize: 16px;
 // 兼容前缀
 $prefixers: webkit, moz, ms, o;
 
-// 背景色
-$mainBGC: #00426D;
-$subBGC: #023C62;
-$disabledBGC: #255477;
-
-$mainColor: #0098DC; // 主要使用的颜色包括active状态 border 标题
-$highlight: #27AFD5; // 主要用于事件和连接等有事件效果的颜色
-$draklight: #a2a2a2; // 主要用于事件和连接等有事件效果但是没有触发时
-
-$errorColor: #FF3402;
-$tableHeader: #2D5E7E;
-$refreshGreen: #13CE66;
-$mask: rgba(0, 0, 0, 0.8);
-$placeholder: #01CDD8;
-$disabledColor: #ddd;
-
-$white: #fff;
+// -----------------------通用组件变量
+// 按钮颜色
+$components-btnBGC: #1890FF;
+$components-btnFontColor: #1a1a1a;
+$components-btnHoverBGC: #40A9FF;
+$components-btnClickBGC: #096DD9;
 

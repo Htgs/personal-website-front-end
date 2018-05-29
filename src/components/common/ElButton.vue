@@ -11,7 +11,6 @@
 <script>
 import { isFunction } from '../../utils/utils';
 export default {
-	name: 'ElButton',
 	props: {
 		params: {
 			type: Object,
@@ -26,13 +25,13 @@ export default {
 						vm.$emit('add', { type: 'add', ...scope });
 					},
 				};
-			},
+			}
 		},
 		scope: {
 			type: Object,
 			default() {
 				return {};
-			},
+			}
 		},
 	},
 	computed: {
@@ -77,7 +76,7 @@ export default {
 			if (isFunction(this.params.clickFn)) {
 				this.params.clickFn(this, this.scope);
 			}
-		},
+		}
 	},
 };
 </script>

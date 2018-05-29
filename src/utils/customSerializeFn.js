@@ -1,5 +1,6 @@
 module.exports = {
-	FormELUpload: function(item) {
+	// 表单上传
+	FormElUpload: function(item) {
 		let obj = {};
 		if (item.value.length > 0) {
 			if (item.value[0].raw instanceof Blob) {

@@ -35,6 +35,7 @@
 					:field="tf.field"
 					:params="tf.props"
 					:ky="ky"
+					v-on:status="emitTableStatus"
 				/>
 				<div v-else>
 					{{scope.row[tf.field]}}
@@ -48,14 +49,14 @@
 			align="center">
 			<template slot-scope="scope">
 				<!-- 表格编辑 -->
-				<ElButton
+				<commonElButton
 					v-if="hasTableOperationEdit"
 					:params="tableEditSetting"
 					:scope="scope"
 					v-on:edit="tableEdit"
 				/>
 				<!-- 表格删除 -->
-				<ElButton
+				<commonElButton
 					v-if="hasTableOperationDelete"
 					:params="tableDeleteSetting"
 					:scope="scope"
@@ -75,11 +76,11 @@
 	</el-table>
 </template>
 <script>
-import ElButton from './ElButton.vue';
+import commonElButton from './ElButton.vue';
 export default {
-	name: 'Table',
+	name: 'commonTable',
 	components: {
-		ElButton,
+		commonElButton,
 	},
 	props: {
 		// 设置是否需要
@@ -131,6 +132,9 @@ export default {
 		},
 		handleTableSelection(selects) {
 			this.$emit('handleTableSelection', selects);
+		},
+		emitTableStatus(msg) {
+			this.$emit('emitTableStatus', msg);
 		},
 		tableEdit(msg) {
 			this.$emit('tableEdit', msg);

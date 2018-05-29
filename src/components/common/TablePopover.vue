@@ -12,7 +12,6 @@
 </template>
 <script>
 export default {
-	name: 'TablePopover',
 	props: {
 		row: Object,
 		field: String,
@@ -43,7 +42,7 @@ export default {
 	},
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 	.popBox {
 		max-width: 300px;
 		max-height: 300px;

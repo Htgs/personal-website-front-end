@@ -39,8 +39,27 @@
 			</el-radio-group>
 			<el-date-picker
 				v-else-if="item.component === 'ElDate'"
-				type="date"
+				:type="item.DateType ? item.DateType : 'date'"
 				:placeholder="'请选择' + item.label"
+				:format="item.format ? item.format : 'yyyy-MM-dd'"
+				:value-format="item['value-format'] ? item['value-format'] : null"
+				:picker-options="item.pickerOptions"
+				v-model="item.value"
+			/>
+			<el-date-picker
+				v-else-if="item.component === 'ElDateRange'"
+				type="daterange"
+				start-placeholder="开始日期"
+				end-placeholder="结束日期"
+				:format="item.format ? item.format : 'yyyy-MM-dd'"
+				:value-format="item['value-format'] ? item['value-format'] : null"
+				v-model="item.value"
+			/>
+			<el-input-number
+				v-else-if="item.component === 'ElInputNumber'"
+				controls-position="right"
+				:min="item.min ? item.min : 0"
+				:label="item.label"
 				v-model="item.value"
 			/>
 			<!-- item.cascade级联。表单中有相互影响时使用，传入的值包含了整个表单的作用域 -->
@@ -49,7 +68,13 @@
 				:is="item.component"
 				:route="route"
 				:formItemData="item"
-				:cascadeData="commonFormData.formField.find(f => f.field === item.cascadeField)"
+				:cascadeData="(() => {
+					if (isArray(item.cascadeField)) {
+						return commonFormData.formField.filter(f => item.cascadeField.includes(f.field))
+					} else {
+						return commonFormData.formField.find(f => f.field === item.cascadeField)
+					}
+				})()"
 			/>
 			<component
 				v-else
@@ -61,15 +86,17 @@
 	</div>
 </template>
 <script>
-import validator from '../../utils/validation.js';
+import validator from '../../utils/validator.js';
+import {isArray} from '../../utils/utils.js';
 export default {
-	name: 'FormItem',
+	name: 'commonForm',
 	props: {
 		commonFormData: Object,
 		// 用于check验证路径
 		route: String,
 	},
 	methods: {
+		isArray: isArray,
 		setRules(item) {
 			let rules = [];
 			// 表单每项默认是必须的

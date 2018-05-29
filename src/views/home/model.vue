@@ -72,8 +72,13 @@ export default {
 					this.routePath = routeObj.query.current;
 					this.mixCurrentModel(routeObj.params.model, routeObj.query.current);
 				} else {
-					this.routePath = routeObj.params.model;
-					this.mixCurrentModel(routeObj.params.model, routeObj.params.model);
+					if (theModel[routeObj.params.model].hasTabs) {
+						this.routePath = theModel[routeObj.params.model].commonTabs.lists[0].name;
+						this.mixCurrentModel(routeObj.params.model, this.routePath);
+					} else {
+						this.routePath = routeObj.params.model;
+						this.mixCurrentModel(routeObj.params.model, routeObj.params.model);
+					}
 				}
 			}
 		},

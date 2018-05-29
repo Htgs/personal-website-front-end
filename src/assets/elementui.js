@@ -115,7 +115,7 @@ export default {
 	// Icon,
 	Row,
 	Col,
-	// Upload,
+	Upload,
 	// Progress,
 	// Badge,
 	Card,

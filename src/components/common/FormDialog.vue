@@ -7,7 +7,7 @@
 		<div class="h100 relative ovh">
 			<el-scrollbar :style="{'height': 'calc(100% + 18px)'}">
 				<el-form label-width="100px" :model="commonFormData" ref="formDialogData">
-					<FormItem
+					<commonFormItem
 						:commonFormData="commonFormData"
 						:route="route"
 					/>
@@ -15,11 +15,11 @@
 			</el-scrollbar>
 		</div>
 		<div slot="footer" class="dialog-opt">
-			<ElButton
+			<commonElButton
 				:params="saveSetting"
 				v-on:save="save"
 			/>
-			<ElButton
+			<commonElButton
 				:params="resetSetting"
 				v-on:reset="reset"
 			/>
@@ -27,10 +27,10 @@
 	</el-dialog>
 </template>
 <script>
-import FormItem from './FormItem.vue';
-import ElButton from './ElButton.vue';
+import commonFormItem from './FormItem.vue';
+import commonElButton from './ElButton.vue';
 export default {
-	name: 'FormDialog',
+	name: 'commonFormDialog',
 	props: {
 		commonFormVisible: Boolean,
 		commonFormData: Object,

@@ -41,7 +41,7 @@
 <script>
 import {ajax} from '../utils/ajax.js';
 import {urlPrefix} from '../utils/utils.js';
-import {email} from '../utils/validation.js';
+import {email} from '../utils/validator.js';
 export default {
 	name: 'Login',
 	data() {

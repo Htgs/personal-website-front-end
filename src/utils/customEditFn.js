@@ -1,5 +1,6 @@
 module.exports = {
-	FormELUpload: function(value) {
+	// 表单上传
+	FormElUpload: function(value) {
 		if (value) {
 			return [{
 				url: `/${value}`,

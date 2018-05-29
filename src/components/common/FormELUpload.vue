@@ -13,7 +13,7 @@
 			:limit="formItemData.limit ? formItemData.limit : 1">
 			<i class="el-icon-plus"></i>
 		</el-upload>
-		<el-dialog :visible.sync="dialogVisible" append-to-body>
+		<el-dialog :visible.sync="dialogVisible" :title="formItemData.label" append-to-body>
 			<img width="100%" :src="dialogImageUrl" alt="">
 		</el-dialog>
 	</div>
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-	name: 'FormELUpload',
+	name: 'FormElUpload',
 	props: {
 		formItemData: Object,
 	},
@@ -40,17 +40,12 @@ export default {
 		},
 		handleExceed(file, fileList) {
 			let limit = this.formItemData.limit ? this.formItemData.limit : 1;
-			this.$message({
-				showClose: false,
-				message: `超出文件个数限制，最大文件上限为${limit}`,
-				type: 'warning',
-				duration: 1500,
-			});
+			this.$mg(this, `超出文件个数限制，最大文件上限为${limit}`, 'warning', 1500);
 		},
 		handlePictureCardPreview(file) {
 			this.dialogImageUrl = file.url;
 			this.dialogVisible = true;
-		},
+		}
 	},
 };
 </script>

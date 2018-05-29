@@ -17,18 +17,34 @@ module.exports = {
 	isFunction: function(FunctionToCheck) {
 		return Object.prototype.toString.call(FunctionToCheck) === '[object Function]';
 	},
-	// serializeData: function (data) {
-	// 	let params = {};
-	// 	data.forEach(v => {
-	// 		// 自定义序列化处理表单数据
-	// 		if (v.customSerializeFn) {
-	// 			params = Object.assign(params, v.customSerializeFn(v));
-	// 		} else {
-	// 			params[v.field] = v.value;
-	// 		}
-	// 	});
-	// 	return params;
-	// },
+	// 序列化数据
+	serializeData: function(data) {
+		let params = {};
+		data.forEach(v => {
+			// 自定义序列化处理表单数据
+			if (v.customSerializeFn) {
+				params = Object.assign(params, v.customSerializeFn(v));
+			} else {
+				params[v.field] = v.value;
+			}
+		});
+		return params;
+	},
+	// 设置表单域的数据
+	setFormField: function(data, row) {
+		data.forEach((item, idx, arr) => {
+			// 在打开对话框同时赋值
+			if (Object.keys(row).includes(item['field'])) {
+				if (item.customEditFn) {
+					// 编辑数据时，自定义设置表单域的值
+					arr[idx] = item.customEditFn(item, row);
+				} else {
+					item['value'] = row[item['field']];
+				}
+			}
+		});
+		return data;
+	},
 	/**
 	 * [findPropertyInObject 在对象中查找属性]
 	 * @Author   szh

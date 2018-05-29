@@ -52,8 +52,14 @@
 		<!-- 条件筛选 -->
 		<div class="common-condition clearfix">
 			<div class="pull-left mr-10">
+				<commonElSelect
+					ref="cstatusSelect"
+					v-if="hasConditionStatusSelect"
+					v-on:selectChange="handleFilter"
+				/>
 				<!-- 自定义筛选条件 -->
 				<component
+					class="mr-10"
 					v-for="(conditionItem, idx) in commonConditionComponents"
 					:is="conditionItem.component"
 					:params="conditionItem.props"
@@ -65,28 +71,28 @@
 			<div class="pull-left" v-if="hasConditionSearch">
 				<el-input
 					placeholder="搜索"
-					v-model.trim="conditionSearch"
-					@keyup.enter="handleConditionSearch">
-					<el-button slot="append" icon="el-icon-search" @click="handleConditionSearch"></el-button>
+					v-model.trim="filter.query_text"
+					@keyup.enter="ajaxIndex">
+					<el-button slot="append" icon="el-icon-search" @click="ajaxIndex"></el-button>
 				</el-input>
 			</div>
 			<div class="pull-right ml-10">
 				<!-- 自定义操作按钮 -->
 				<component
-					class="mr-10"
 					v-for="(operationItem, idx) in commonOperationComponents"
+					class="mr-10"
 					:is="operationItem.component"
 					:params="operationItem.props"
 					:key="`operationItem-${idx}`"
 					v-on:customEv="emitOperationBtn"
 				/>
 				<!-- 新增按钮 -->
-				<ElButton
+				<commonElButton
 					v-if="hasConditionAdd"
 					v-on:add="add"
 				/>
 				<!-- 刷新按钮 -->
-				<ElButton
+				<commonElButton
 					v-if="hasConditionRefresh"
 					:params="conditionRefreshSetting"
 					v-on:refresh="refresh"
@@ -178,10 +184,10 @@
 		</div> -->
 		<!-- 独立出主体表格组件 -->
 		<div class="common-table mt-10">
-			<Table
+			<commonTable
 				v-loading.body="tableLoading"
-				:hasTableSelection="hasTableSelection"
-				:hasTableIndex="hasTableIndex"
+				:hasTableSelection="model.hasTableSelection"
+				:hasTableIndex="model.hasTableIndex"
 				:hasTableOperation="hasTableOperation"
 				:hasTableOperationEdit="hasTableOperationEdit"
 				:hasTableOperationDelete="hasTableOperationDelete"
@@ -190,6 +196,7 @@
 				:commonTableOperationComponents="commonTableOperationComponents"
 				v-on:handleTableSort="handleTableSort"
 				v-on:handleTableSelection="handleTableSelection"
+				v-on:emitTableStatus="emitTableStatus"
 				v-on:tableEdit="tableEdit"
 				v-on:tableDelete="tableDelete"
 				v-on:emitOperationBtn="emitOperationBtn"
@@ -203,7 +210,7 @@
 		<div class="common-pagination p-10">
 			<div class="pagination-opt pull-left">
 				<!-- 分页批量删除按钮 -->
-				<ElButton
+				<commonElButton
 					v-if="hasPaginationBatchDestroy"
 					:params="paginationBatchDestroySetting"
 					v-on:batchDestroy="batchDestroy"
@@ -228,7 +235,7 @@
 		</div>
 
 		<!-- 表单对话框 -->
-		<FormDialog
+		<commonFormDialog
 			ref="commonFormDialog"
 			:commonFormVisible="formVisible"
 			:commonFormData="formData"
@@ -238,7 +245,7 @@
 			v-on:closeDialog="emitCloseDialog"
 		/>
 		<!-- 删除对话框 -->
-		<DeleteDialog
+		<commonDeleteDialog
 			:commonDeleteVisible="deleteVisible"
 			:commonDeleteData="deleteData"
 			v-on:destroy="emitDialogDestroy"
@@ -247,37 +254,47 @@
 		<!-- 自定义对话框 -->
 		<!-- <slot name="common-custom-dialog" /> -->
 		<component
-			v-if="model.commonCustomDialog"
+			v-if="model.commonCustomDialog.length && model.commonCustomDialog.length > 0"
+			v-for="commonCustomDialog in model.commonCustomDialog"
+			:ref="commonCustomDialog.ref"
+			:is="commonCustomDialog.component"
+			:params="commonCustomDialog.props"
+			:route="route"
+			:key="commonCustomDialog.ref"
+			v-on:refresh="refresh"
+			v-on:update="updateTableData"
+		/>
+		<component
+			v-else
 			:ref="model.commonCustomDialog.ref"
 			:is="model.commonCustomDialog.component"
 			:params="model.commonCustomDialog.props"
 			:route="route"
 			v-on:refresh="refresh"
+			v-on:update="updateTableData"
 		/>
 	</div>
 </template>
-
 <script>
 // serializeData 为ajax提交数据之前序列化方法
-import { isFunction, serializeData } from '../../utils/utils.js';
+import { isString, isObject, isFunction, serializeData, setFormField } from '../../utils/utils.js';
 import { index, show, store, edit, update, destroy, batchDestroy, status } from '../../utils/commonApi.js';
 
 // import ajax from '../../utils/commonApi.js'
 
-import ElSelect from './ElSelect.vue';
-import ElButton from './ElButton.vue';
-import FormDialog from './FormDialog.vue';
-import DeleteDialog from './DeleteDialog.vue';
-import Table from './Table.vue';
+import commonElSelect from './ElSelect.vue';
+import commonElButton from './ElButton.vue';
+import commonFormDialog from './FormDialog.vue';
+import commonDeleteDialog from './DeleteDialog.vue';
+import commonTable from './Table.vue';
 
 export default {
-	name: 'commonMain',
 	components: {
-		ElSelect,
-		ElButton,
-		FormDialog,
-		DeleteDialog,
-		Table,
+		commonElSelect,
+		commonElButton,
+		commonFormDialog,
+		commonDeleteDialog,
+		commonTable,
 	},
 	props: {
 		model: Object,
@@ -296,6 +313,13 @@ export default {
 		hasTabs() {
 			if (this.model.hasTabs) {
 				return this.model.hasTabs;
+			} else {
+				return false;
+			}
+		},
+		hasConditionStatusSelect() {
+			if (this.model.hasConditionStatusSelect) {
+				return this.model.hasConditionStatusSelect;
 			} else {
 				return false;
 			}
@@ -374,7 +398,7 @@ export default {
 			} else {
 				return {
 					type: '',
-					lists: []
+					lists: [],
 				};
 			}
 		},
@@ -419,21 +443,20 @@ export default {
 			if (this.model.commonPaginationSetting) {
 				return {
 					className: `pull-right ${this.model.commonPaginationSetting.className}`,
-					layout: this.model.commonPaginationSetting.layout
+					layout: this.model.commonPaginationSetting.layout,
 				};
 			} else {
 				return {
 					className: 'pull-right',
-					layout: 'total, prev, pager, next, jumper'
+					layout: 'total, prev, pager, next, jumper',
 				};
 			}
-		},
+		}
 	},
 	data() {
 		return {
 			tabsActive: '',
 
-			conditionSearch: '',
 			conditionRefreshSetting: {
 				type: 'primary',
 				loading: false,
@@ -446,7 +469,7 @@ export default {
 			},
 
 			// 表格
-			tableLoading: false,
+			tableLoading: true,
 			tableData: [],
 			tableEditSetting: {
 				type: 'text',
@@ -492,7 +515,9 @@ export default {
 				prev_page_url: ''
 			},
 
-			filter: {},
+			filter: {
+				query_text: '',
+			},
 
 			deleteVisible: false,
 			deleteData: {},
@@ -522,25 +547,17 @@ export default {
 				query: {
 					...this.$route.query,
 					current: tab.name
-				}
+				},
 			});
-			this.filter = {}; // tabs页切换时，需要把条件过滤状态清除
+			// tabs页切换时，需要把条件过滤状态清除
+			this.filter = {
+				query_text: '',
+			};
 			this.$emit('toggleTabsPanel', tab.name);
-		},
-		// 条件过滤
-		handleConditionSearch(e) {
-			this.handleFilter({ query_text: this.conditionSearch });
 		},
 		// 表格排序过滤
 		handleTableSort(sort) {
-			if (sort.order === null) return;
-			let order = '';
-			if (sort.order === 'ascending') {
-				order = 'asc';
-			} else if (sort.order === 'descending') {
-				order = 'desc';
-			}
-			this.handleFilter({ _order: order, _sort: sort.prop });
+			this.handleFilter(sort);
 		},
 		// 表格多选
 		handleTableSelection(selects) {
@@ -562,6 +579,18 @@ export default {
 				console.error('请在model中customOperationFn对象添加对应按钮type的回调方法');
 			}
 		},
+		// 表格状态改变方法
+		emitTableStatus(msg) {
+			status(this.route, msg.id)
+				.then(data => {
+					this.swtich_option_tableData({data: data, id: msg.id});
+					if (data.res === 1) {
+						this.$mg(this, '已启用', 'success', 1000);
+					} else {
+						this.$mg(this, '已停用', 'success', 1000);
+					}
+				});
+		},
 		// 表单对话框通讯方法
 		emitDialogSave(msg) {
 			this[`${msg.type}Save`](msg);
@@ -570,9 +599,15 @@ export default {
 		emitDialogDestroy(msg) {
 			destroy(this.route, msg.id)
 				.then(data => {
-					this.$mg(this, '删除成功', 'success', 1000);
-					this.emitCloseDialog('delete');
-					this.ajaxIndex();
+					if (isObject(data)) {
+						this.$mg(this, '删除成功', 'success', 1000);
+						this.emitCloseDialog('delete');
+						this.ajaxIndex();
+						// 更新缓存
+						this.model.vuxcache && this.model.vuxcache(this);
+					} else if (isString(data)) {
+						this.$mg(this, data, 'error', 1000);
+					}
 				});
 		},
 		// 关闭对话框
@@ -583,23 +618,19 @@ export default {
 
 		// 设置表单对话框数据
 		setFormData(type, row = {}) {
-			let data = {
+			let title = '';
+			if (this.model.hasTabs) {
+				let subtitle = this.model.commonTabs.lists.find(t => t.name === this.tabsActive).display_name;
+				title = type === 'add' ? `${subtitle}-新增` : `${subtitle}-编辑`;
+			} else {
+				title = type === 'add' ? `${this.model.commonTitle}-新增` : `${this.model.commonTitle}-编辑`;
+			}
+			return {
 				id: row.id,
 				type: type,
-				title: type === 'add' ? `${this.model.commonTitle}-新增` : `${this.model.commonTitle}-编辑`,
-				formField: this.model.commonFormFieldsFn(type),
+				title: title,
+				formField: setFormField(this.model.commonFormFieldsFn(type, row), row),
 			};
-			data['formField'].forEach(item => {
-				// 在打开对话框同时赋值
-				if (Object.keys(row).includes(item['field'])) {
-					if (item.customEditFn) {
-						item['value'] = item.customEditFn(row[item['field']]);
-					} else {
-						item['value'] = row[item['field']];
-					}
-				}
-			});
-			return data;
 		},
 		// 动态方法
 		// 新增
@@ -609,22 +640,35 @@ export default {
 		},
 		// 刷新
 		refresh(scope) {
-			this.filter = {};
-			this.conditionSearch = '';
+			this.filter = {
+				query_text: '',
+			};
+			if (this.hasConditionStatusSelect) {
+				this.$refs['cstatusSelect'].params.value = undefined;
+			}
 			this.ajaxIndex();
 		},
 		// 表格编辑
 		tableEdit(scope) {
-			this.formVisible = true;
 			this.formLoading = true;
 			edit(this.route, scope.row.id)
 				.then(data => {
+					// 对编辑的数据行的数据进行判断，并且作出限制
+					if (this.model.commontableEditLimit && data[this.model.commontableEditLimit.field] === this.model.commontableEditLimit.value) {
+						this.$mg(this, this.model.commontableEditLimit.content, 'warning', 2000);
+						return;
+					}
 					this.formLoading = false;
 					this.formData = this.setFormData(scope.type, data);
+					this.formVisible = true;
 				});
 		},
 		// 表格删除
 		tableDelete(scope) {
+			// if (this.model.commontableDeleteLimit && scope.row[this.model.commontableDeleteLimit.field] === this.model.commontableDeleteLimit.value) {
+			// 	this.$mg(this, this.model.commontableDeleteLimit.content, 'warning', 2000)
+			// 	return
+			// }
 			this.deleteData = scope.row;
 			this.deleteVisible = true;
 		},
@@ -633,7 +677,7 @@ export default {
 			if (this.tableSelection.length === 0) {
 				this.$mg(this, '未选择删除项', 'warning', 2000);
 				return;
-			};
+			}
 			this.$confirm(`是否要删除这${this.tableSelection.length}条数据`)
 				.then(_ => {
 					let params = {
@@ -647,6 +691,8 @@ export default {
 								this.$mg(this, '删除失败', 'error', 1000);
 							}
 							this.ajaxIndex();
+							// 更新缓存
+							this.model.vuxcache && this.model.vuxcache(this);
 						});
 				})
 				.catch(_ => {});
@@ -663,6 +709,11 @@ export default {
 					this.$refs['commonFormDialog'].saveSetting.loading = false;
 					this.emitCloseDialog('form');
 					this.ajaxIndex();
+					// 更新缓存
+					this.model.vuxcache && this.model.vuxcache(this);
+				})
+				.catch(() => {
+					this.$refs['commonFormDialog'].saveSetting.loading = false;
 				});
 		},
 		// 编辑保存
@@ -677,6 +728,11 @@ export default {
 					this.$refs['commonFormDialog'].saveSetting.loading = false;
 					this.emitCloseDialog('form');
 					this.edit_option_tableData(data);
+					// 更新缓存
+					this.model.vuxcache && this.model.vuxcache(this);
+				})
+				.catch(() => {
+					this.$refs['commonFormDialog'].saveSetting.loading = false;
 				});
 		},
 		// 处理条件过滤
@@ -685,6 +741,15 @@ export default {
 				this.filter[i] = data[i];
 			}
 			this.ajaxIndex();
+		},
+		/**
+		 * [updateTableData 自定义对话框更新了单条数据时使用]
+		 * @Author   szh
+		 * @DateTime 2018-05-16
+		 * @param    {Object}   data [更新后的单条表格数据]
+		 */
+		updateTableData(data) {
+			this.edit_option_tableData(data);
 		},
 		// // condition范围选择处理方法
 		// rangeDate (dates) {
@@ -749,6 +814,10 @@ export default {
 				.then(data => {
 					this.set_tableData(data);
 					this.tableLoading = false;
+				})
+				.catch(err => {
+					console.log(err);
+					this.tableLoading = false;
 				});
 		},
 	},
@@ -758,10 +827,23 @@ export default {
 			if (nv !== v) {
 				this.tableData = [];
 				if (this.hasTabs) {
+					// this.tabsActive = this.$route.query.current ? this.$route.query.current : this.$route.params.model
 					// 存在tabs标签时，当前激活的标签由地址vue路由中的query.current决定
 					// 如果query.current不存在时，默认激活标签页中的第一个
 					this.tabsActive = this.$route.query.current ? this.$route.query.current : this.model.commonTabs.lists[0].name;
 				}
+				// 页面切换时的清除刷选条件
+				this.filter = {
+					query_text: '',
+				};
+				if (this.hasConditionStatusSelect && this.$refs['cstatusSelect']) {
+					this.$refs['cstatusSelect'].params.value = undefined;
+				}
+				this.commonConditionComponents.forEach(c => {
+					if (c.props) {
+						c.props.value = undefined;
+					}
+				});
 				this.ajaxIndex();
 			}
 		},

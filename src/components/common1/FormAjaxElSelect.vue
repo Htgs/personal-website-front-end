@@ -2,6 +2,7 @@
 	<el-select 
 		clearable
 		:placeholder="formItemData.placeholder ? formItemData.placeholder : '请选择' + formItemData.label"
+		:disabled="formItemData.disabled"
 		v-model="formItemData.value"
 		v-loading="loading"
 		@change="selectChange">

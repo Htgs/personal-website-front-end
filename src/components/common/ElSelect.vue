@@ -1,5 +1,5 @@
 <template>
-	<el-select clearable v-model="params.value" :class="className" :placeholder="`请选择${title}`" @change="select(params)">
+	<el-select :clearable="clearable" v-model="params.value" :class="className" :placeholder="`请选择${title}`" @change="select(params)">
 		<el-option
 			v-for="item in lists"
 			:label="item.label"
@@ -10,7 +10,6 @@
 </template>
 <script>
 export default {
-	name: 'ElSelect',
 	props: {
 		params: {
 			type: Object,
@@ -31,8 +30,8 @@ export default {
 					],
 					className: 'mr-10',
 				};
-			},
-		},
+			}
+		}
 	},
 	computed: {
 		field() {
@@ -70,6 +69,13 @@ export default {
 				return this.params.className;
 			} else {
 				return '';
+			}
+		},
+		clearable() {
+			if (this.params.clearable === false) {
+				return false;
+			} else {
+				return true;
 			}
 		},
 	},
