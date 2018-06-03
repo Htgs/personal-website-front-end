@@ -34,6 +34,7 @@ module.exports = {
     "semi": [2, "always"],
     "one-var": 0,
     "comma-dangle": "off",
-    'no-useless-escape': 0
+    'no-useless-escape': 0,
+    'prefer-promise-reject-errors': 0,
   }
 }

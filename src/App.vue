@@ -8,7 +8,6 @@
 import {mapState} from 'vuex';
 import {ajax} from './utils/ajax.js';
 import {urlPrefix} from './utils/utils.js';
-
 export default {
 	name: 'App',
 	// beforeRouteEnter(to, from, next) {
@@ -40,7 +39,7 @@ export default {
 	// 	next();
 	// },
 	beforeMount() {
-		this.auth();
+		// this.auth();
 	},
 	computed: {
 		...mapState(['userinfo'])

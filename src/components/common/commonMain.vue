@@ -239,7 +239,6 @@
 			ref="commonFormDialog"
 			:commonFormVisible="formVisible"
 			:commonFormData="formData"
-			:commonFormLoading="formLoading"
 			:route="route"
 			v-on:save="emitDialogSave"
 			v-on:closeDialog="emitCloseDialog"
@@ -524,7 +523,6 @@ export default {
 
 			formVisible: false,
 			formData: {},
-			formLoading: false,
 		};
 	},
 	mounted() {
@@ -650,7 +648,6 @@ export default {
 		},
 		// 表格编辑
 		tableEdit(scope) {
-			this.formLoading = true;
 			edit(this.route, scope.row.id)
 				.then(data => {
 					// 对编辑的数据行的数据进行判断，并且作出限制
@@ -658,7 +655,6 @@ export default {
 						this.$mg(this, this.model.commontableEditLimit.content, 'warning', 2000);
 						return;
 					}
-					this.formLoading = false;
 					this.formData = this.setFormData(scope.type, data);
 					this.formVisible = true;
 				});

@@ -89,41 +89,49 @@ axios.interceptors.response.use(function(response) {
 	return response;
 }, function(error) {
 	// Do something with response error
-	let msg = '';
-	if (error.response && error.response.status === 401) {
-		msg = '未登录或者权限不足';
-	} else if (error.response && error.response.status === 404) {
-		msg = '请求接口不存在';
-	} else if (error.response && error.response.status === 500) {
-		msg = '服务器错误';
-	} else if (error.response && error.response.status === 504) {
-		msg = '请求超时';
-	} else {
-		msg = '请求错误';
-	}
-	error = Object.assign(error, {msg: msg});
+	// let msg = '';
+	// if (error.response && error.response.status === 401) {
+	// 	msg = '未登录或者权限不足';
+	// } else if (error.response && error.response.status === 404) {
+	// 	msg = '请求接口不存在';
+	// } else if (error.response && error.response.status === 500) {
+	// 	msg = '服务器错误';
+	// } else if (error.response && error.response.status === 504) {
+	// 	msg = '请求超时';
+	// } else {
+	// 	msg = '请求错误';
+	// }
+	// error = Object.assign(error, {msg: msg});
 	return Promise.reject(error);
 });
 
-ajax('get', urlPrefix('token'))
-	.then(res => {
-		// Add a request interceptor
-		axios.interceptors.request.use(function(config) {
-			// Do something before request is sent
-			config.headers = Object.assign(config.headers, {'X-CSRF-TOKEN': res.data});
-			return config;
-		}, function(error) {
-			// Do something with request error
-			return Promise.reject(error);
-		});
-		new Vue({
-			el: '#app',
-			router,
-			store,
-			components: { App },
-			template: '<App/>'
-		});
-	})
-	.catch(err => {
-		console.dir(err);
-	});
+// ajax('get', urlPrefix('token'))
+// 	.then(res => {
+// 		// Add a request interceptor
+// 		axios.interceptors.request.use(function(config) {
+// 			// Do something before request is sent
+// 			config.headers = Object.assign(config.headers, {'X-CSRF-TOKEN': res.data});
+// 			return config;
+// 		}, function(error) {
+// 			// Do something with request error
+// 			return Promise.reject(error);
+// 		});
+// 		new Vue({
+// 			el: '#app',
+// 			router,
+// 			store,
+// 			components: { App },
+// 			template: '<App/>'
+// 		});
+// 	})
+// 	.catch(err => {
+// 		console.dir(err);
+// 	});
+
+new Vue({
+	el: '#app',
+	router,
+	store,
+	components: { App },
+	template: '<App/>'
+});

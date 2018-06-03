@@ -1,4 +1,5 @@
 module.exports = {
+	// 通用公共方法 -----------------------------------------------
 	isString: function(StringToCheck) {
 		return Object.prototype.toString.call(StringToCheck) === '[object String]';
 	},
@@ -17,6 +18,12 @@ module.exports = {
 	isFunction: function(FunctionToCheck) {
 		return Object.prototype.toString.call(FunctionToCheck) === '[object Function]';
 	},
+	// 错误抛出
+	throwErr: function(model, msg) {
+		throw Error(`${model}: ${msg}`);
+	},
+
+	// 项目特有工具方法---------------------------------------------
 	// 序列化数据
 	serializeData: function(data) {
 		let params = {};

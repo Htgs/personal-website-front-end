@@ -65,18 +65,18 @@ export default {
 				if (!routeObj.query.current) {
 					console.error(`${routeObj.params.model}中的detailLink组件缺少了current参数`);
 				}
-				this.routePath = `${routeObj.params.model}/${routeObj.params.id}/${routeObj.query.current}`;
+				this.routePath = `/admin/${routeObj.params.model}/${routeObj.params.id}/${routeObj.query.current}`;
 				this.mixCurrentModel(`${routeObj.params.model}Detail`, routeObj.query.current);
 			} else {
 				if (routeObj.query.current) {
-					this.routePath = routeObj.query.current;
+					this.routePath = `/admin/${routeObj.query.current}`;
 					this.mixCurrentModel(routeObj.params.model, routeObj.query.current);
 				} else {
 					if (theModel[routeObj.params.model].hasTabs) {
-						this.routePath = theModel[routeObj.params.model].commonTabs.lists[0].name;
+						this.routePath = `/admin/${theModel[routeObj.params.model].commonTabs.lists[0].name}`;
 						this.mixCurrentModel(routeObj.params.model, this.routePath);
 					} else {
-						this.routePath = routeObj.params.model;
+						this.routePath = `/admin/${routeObj.params.model}`;
 						this.mixCurrentModel(routeObj.params.model, routeObj.params.model);
 					}
 				}

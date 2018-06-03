@@ -1,17 +1,22 @@
 <template>
-	<el-dialog class="components-dialogs" :visible="commonFormVisible" v-loading.body="commonFormLoading" :close-on-click-modal="false" :show-close="false">
+	<el-dialog class="components-dialogs" :visible="commonFormVisible" :close-on-click-modal="false" :show-close="false">
 		<div slot="title" class="clearfix p-10">
 			<h1 class="dialogs-title pull-left">{{commonFormData.title}}</h1>
 			<i class="dialogs-close el-icon-close pull-right" @click="close" />
 		</div>
 		<div class="h100 relative ovh">
 			<el-scrollbar :style="{'height': 'calc(100% + 18px)'}">
-				<el-form label-width="100px" :model="commonFormData" ref="formDialogData">
+				<!-- <el-form label-width="100px" :model="commonFormData" ref="formDialogData">
 					<commonFormItem
 						:commonFormData="commonFormData"
 						:route="route"
 					/>
-				</el-form>
+				</el-form> -->
+				<Form
+					ref="formDialogData"
+					:FormSetting="{'label-width': '100px'}"
+					:FormData="commonFormData"
+				/>
 			</el-scrollbar>
 		</div>
 		<div slot="footer" class="dialog-opt">
@@ -27,22 +32,18 @@
 	</el-dialog>
 </template>
 <script>
-import commonFormItem from './FormItem.vue';
+import Form from './Form.vue';
 import commonElButton from './ElButton.vue';
 export default {
 	name: 'commonFormDialog',
 	props: {
 		commonFormVisible: Boolean,
 		commonFormData: Object,
-		commonFormLoading: {
-			type: Boolean,
-			default: false,
-		},
 		// 用于check验证路径
 		route: String,
 	},
 	components: {
-		commonFormItem,
+		Form,
 		commonElButton,
 	},
 	data() {
@@ -74,17 +75,17 @@ export default {
 			this.$emit('closeDialog', 'form');
 		},
 		save() {
-			this.$refs['formDialogData'].validate((valid) => {
-				if (valid) {
+			this.$refs['formDialogData'].validate()
+				.then(({FormData, params}) => {
 					this.saveSetting.loading = true;
-					this.$emit('save', this.commonFormData);
-				} else {
-					return false;
-				}
-			});
+					this.$emit('save', FormData);
+				})
+				.catch(_ => {
+					// console.log(_);
+				});
 		},
 		reset() {
-			this.$refs['formDialogData'].resetFields();
+			this.$refs['formDialogData'].reset();
 		},
 	},
 };

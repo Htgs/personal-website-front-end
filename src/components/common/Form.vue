@@ -1,13 +1,13 @@
 <template>
-	<div>
+	<el-form :label-width="FormLabelWidth" :model="FormData" ref="FormData">
 		<el-form-item
-			v-for="(item, ky) in commonFormData.formField"
+			v-for="(item, ky) in FormData.formField"
 			:key="ky"
 			:class="item.className"
 			:label="item.label"
 			:required="item.required === false ? false : true"
 			:prop="`formField.${ky}.value`"
-			:rules="setRules(item)">
+			:rules="_setRules(item)">
 			<el-input
 				v-if="item.component === 'ElInput'"
 				:placeholder="item.placeholder ? item.placeholder : '请输入内容'"
@@ -62,6 +62,11 @@
 				:label="item.label"
 				v-model="item.value"
 			/>
+			<el-checkbox
+				v-else-if="item.component === 'ElCheckbox'"
+				v-model="item.value">
+				{{item.placeholder}}
+			</el-checkbox>
 			<!-- item.cascade级联。表单中有相互影响时使用，传入的值包含了整个表单的作用域 -->
 			<component
 				v-else-if="item.cascade === true"
@@ -70,9 +75,9 @@
 				:formItemData="item"
 				:cascadeData="(() => {
 					if (isArray(item.cascadeField)) {
-						return commonFormData.formField.filter(f => item.cascadeField.includes(f.field))
+						return FormData.formField.filter(f => item.cascadeField.includes(f.field))
 					} else {
-						return commonFormData.formField.find(f => f.field === item.cascadeField)
+						return FormData.formField.find(f => f.field === item.cascadeField)
 					}
 				})()"
 			/>
@@ -83,21 +88,60 @@
 				:formItemData="item"
 			/>
 		</el-form-item>
-	</div>
+	</el-form>
 </template>
 <script>
-import validator from '../../utils/validator.js';
+import ElValidation from '../../utils/ElValidation.js';
 import {isArray} from '../../utils/utils.js';
 export default {
-	name: 'commonForm',
+	name: 'Form',
 	props: {
-		commonFormData: Object,
+		// 表单设置
+		FormSetting: Object,
+		// 表单数据
+		FormData: Object,
 		// 用于check验证路径
 		route: String,
 	},
+	computed: {
+		// 表单标签长度
+		FormLabelWidth() {
+			if (this.FormSetting['label-width']) {
+				return this.FormSetting['label-width'];
+			} else {
+				return '100px';
+			}
+		},
+	},
 	methods: {
-		isArray: isArray,
-		setRules(item) {
+		/**
+		 * 表单验证
+		 * @return Promise
+		 * resolve: 返回表单数据和格式化后的表单数据
+		 */
+		validate() {
+			return new Promise((resolve, reject) => {
+				this.$refs['FormData'].validate((valid) => {
+					if (valid) {
+						const params = {
+							...this._serializeData(this.FormData.formField),
+						};
+						resolve({
+							FormData: this.FormData,
+							params,
+						});
+					} else {
+						reject(valid);
+					}
+				});
+			});
+		},
+		reset() {
+			this.$refs['FormData'].resetFields();
+		},
+		isArray,
+		// 动态设置验证规则
+		_setRules(item) {
 			let rules = [];
 			// 表单每项默认是必须的
 			if (item.required !== false) {
@@ -110,13 +154,13 @@ export default {
 				item.rules.forEach(valid => {
 					rules.push({
 						// elementUI必须
-						validator: validator[valid.method],
+						validator: ElValidation[valid.method],
 						label: item.label,
 						trigger: valid.trigger ? valid.trigger : 'change blur',
 						// check接口参数
 						vm: this,
 						route: this.route,
-						id: this.commonFormData.id,
+						id: this.FormData.id,
 						// 自定义验证的参数， 参数属性名不能使用rule内置同名属性名
 						...valid['params'],
 					});
@@ -124,16 +168,18 @@ export default {
 			}
 			return rules;
 		},
+		_serializeData: function(data) {
+			let params = {};
+			data.forEach(v => {
+				// 自定义序列化处理表单数据
+				if (v.customSerializeFn) {
+					params = Object.assign(params, v.customSerializeFn(v));
+				} else {
+					params[v.field] = v.value;
+				}
+			});
+			return params;
+		},
 	},
-	watch: {
-		// 'commonFormData.formField': {
-		// 	deep: true,
-		// 	handler: function (nv, v) {
-		// 		if (nv.commonTitle !== v.commonTitle) {
-		// 			index(this, this.filter)
-		// 		}
-		// 	}
-		// }
-	}
 };
 </script>

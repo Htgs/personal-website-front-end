@@ -1,18 +1,10 @@
 <template>
-	<div>
-		index
-	</div>
+	<div>前端页面首页</div>
 </template>
 
 <script>
+
 export default {
 	name: 'Index',
-	mounted() {
-	},
-	methods: {
-	}
 };
 </script>
-
-<style scoped>
-</style>
