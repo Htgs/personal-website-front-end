@@ -74,6 +74,7 @@ export default {
 					}
 					ajax('post', `/admin/login`, data)
 						.then(res => {
+							console.log(res.data);
 							this.$store.commit('SET_USERINFO', res.data);
 							this.$router.push('/admin');
 						})

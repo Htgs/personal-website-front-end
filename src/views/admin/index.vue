@@ -37,7 +37,7 @@ export default {
 		...mapState(['userinfo']),
 	},
 	beforeMount() {
-		// this.auth();
+		this.auth();
 	},
 	// beforeRouteEnter(to, from, next) {
 	// 	// next();
@@ -70,6 +70,7 @@ export default {
 					}
 				})
 				.catch(err => {
+					console.dir(err);
 					if (err.response.status === 401) {
 						this.$router.push('/admin/login');
 					}

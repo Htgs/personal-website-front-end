@@ -83,6 +83,18 @@ Object.keys(ElementComponents).forEach(elComponent => {
 // 	template: '<App/>'
 // });
 
+// Add a request interceptor
+axios.interceptors.request.use(function(config) {
+	if (localStorage.getItem('b-token')) {
+		config.headers = Object.assign(config.headers, {'Authorization': localStorage.getItem('b-token')});
+	}
+	// Do something before request is sent
+	return config;
+}, function(error) {
+	// Do something with request error
+	return Promise.reject(error);
+});
+
 // Add a response interceptor
 axios.interceptors.response.use(function(response) {
 	// Do something with response data

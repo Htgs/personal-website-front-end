@@ -48,9 +48,16 @@ const mutations = {
 		Object.keys(user).forEach(v => {
 			state.userinfo[v] = user[v];
 		});
+		if (user.token) {
+			// 如果有user.token则保存新的用户token
+			localStorage.setItem('b-token', `Bearer ${user.token}`);
+		}
 	},
 	[mt.CLEAR_USERINFO](state) {
 		state.userinfo = {};
+		if (localStorage.getItem('b-token')) {
+			localStorage.removeItem('b-token');
+		}
 	},
 };
 
