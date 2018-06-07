@@ -36,5 +36,6 @@ module.exports = {
     "comma-dangle": "off",
     'no-useless-escape': 0,
     'prefer-promise-reject-errors': 0,
+    'no-unneeded-ternary': 0,
   }
 }

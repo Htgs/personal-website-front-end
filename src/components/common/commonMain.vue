@@ -103,85 +103,6 @@
 		<!-- 主体表格上方插口 -->
 		<!-- <slot name="common-table-before" /> -->
 
-		<!-- 主体表格 -->
-		<!-- <div class="common-table mt-10">
-			<el-table
-				v-loading.body="tableLoading"
-				:data="tableData"
-				@sort-change="handleTableSort"
-				@selection-change="handleTableSelection"
-				style="width: 100%">
-				<el-table-column
-					v-if="hasTableSelection"
-					align="center"
-					:resizable="false"
-					type="selection">
-				</el-table-column>
-				<el-table-column
-					v-if="hasTableIndex"
-					align="center"
-					:resizable="false"
-					type="index"
-					label="序号"
-					width="70">
-				</el-table-column>
-				<el-table-column
-					v-for="(tf, ky) in commonTableField"
-					align="center"
-					:resizable="false"
-					:label="tf.label"
-					:prop="tf.field"
-					:sortable="tf.sortable"
-					:width="tf.width"
-					:key="ky">
-					<template slot-scope="scope">
-						<component
-							v-if="tf.component"
-							:is="tf.component"
-							:row="scope.row"
-							:field="tf.field"
-							:params="tf.props"
-							:ky="ky"
-							v-on:status="emitTableStatus"
-						/>
-						<div v-else>
-							{{scope.row[tf.field]}}
-						</div>
-					</template>
-				</el-table-column>
-				<el-table-column
-					v-if="hasTableOperation"
-					label="操作"
-					:resizable="false"
-					align="center">
-					<template slot-scope="scope">
-						表格编辑
-						<commonElButton
-							v-if="hasTableOperationEdit"
-							:params="tableEditSetting"
-							:scope="scope"
-							v-on:edit="tableEdit"
-						/>
-						表格删除
-						<commonElButton
-							v-if="hasTableOperationDelete"
-							:params="tableDeleteSetting"
-							:scope="scope"
-							v-on:delete="tableDelete"
-						/>
-						自定义表格操作按钮
-						<component
-							v-for="(tableOperationItem, idx) in commonTableOperationComponents"
-							:is="tableOperationItem.component"
-							:params="tableOperationItem.props"
-							:scope="scope"
-							:key="`tableOperationItem-${idx}`"
-							v-on:customEv="emitOperationBtn"
-						/>
-					</template>
-				</el-table-column>
-			</el-table>
-		</div> -->
 		<!-- 独立出主体表格组件 -->
 		<div class="common-table mt-10">
 			<commonTable
@@ -228,8 +149,8 @@
 				:class="commonPaginationSetting.className"
 				:layout="commonPaginationSetting.layout"
 				@current-change="handlePaginationCurrent"
-				:current-page="paginationTablePager['current_page']"
-				:page-size="paginationTablePager['per_page']"
+				:current-page="paginationTablePager['page']"
+				:page-size="paginationTablePager['pageSize']"
 				:total="paginationTablePager['total']">
 			</el-pagination>
 		</div>
@@ -504,14 +425,9 @@ export default {
 			},
 			// 分页数据
 			paginationTablePager: {
-				current_page: 1,
-				from: 0,
-				last_page: 0,
-				per_page: 0,
-				to: 0,
+				page: 1,
+				pageSize: 0,
 				total: 0,
-				next_page_url: '',
-				prev_page_url: ''
 			},
 
 			filter: {
@@ -699,7 +615,7 @@ export default {
 				_type: formData.type,
 				...serializeData(formData.formField)
 			};
-			store(this.route, params)
+			store(this.route, params, params._hasfile)
 				.then(data => {
 					this.$mg(this, '保存成功', 'success', 2000);
 					this.$refs['commonFormDialog'].saveSetting.loading = false;
@@ -718,7 +634,7 @@ export default {
 				_type: formData.type,
 				...serializeData(formData.formField)
 			};
-			update(this.route, formData.id, params)
+			update(this.route, formData.id, params, params._hasfile)
 				.then(data => {
 					this.$mg(this, '保存成功', 'success', 2000);
 					this.$refs['commonFormDialog'].saveSetting.loading = false;

@@ -13,7 +13,7 @@ const user = {
 	hasConditionSearch: true,
 	hasConditionAdd: true,
 	hasConditionRefresh: true,
-	hasTableSelection: true,
+	hasTableSelection: false,
 	hasTableIndex: true,
 	hasTableOperation: true,
 	hasTableOperationEdit: true,
@@ -96,7 +96,7 @@ const user = {
 				layout: 'total, prev, pager, next, jumper',
 			},
 			// 默认表单域
-			commonFormFieldsFn() {
+			commonFormFieldsFn(type) {
 				return [
 					{
 						component: 'ElInput',
@@ -140,6 +140,8 @@ const user = {
 						inputType: 'password',
 						field: 'password',
 						label: '密码',
+						required: type === 'edit' ? false : true,
+						disabled: type === 'edit' ? true : false,
 						// rules: [
 						// 	{
 						// 		method: 'fixedLngValid',

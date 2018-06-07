@@ -3,7 +3,7 @@ module.exports = {
 	FormElUpload: function(value) {
 		if (value) {
 			return [{
-				url: `/${value}`,
+				url: `/uploads/${value}`,
 			}];
 		} else {
 			return [];
