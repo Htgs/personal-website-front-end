@@ -40,6 +40,10 @@ export default {
 	// },
 	beforeMount() {
 		// this.auth();
+		// let mins = this.ddd(['170m', '19h', '24h', '6h', '12h', '18h', '1d', '1d', '6h', '9d', '9d']);
+		// mins *= 2;
+		// mins += this.ddd(['2d', '6d', '18d']);
+		// console.log(mins);
 	},
 	computed: {
 		...mapState(['userinfo'])
@@ -58,7 +62,20 @@ export default {
 						this.$router.push('/login');
 					}
 				});
-		}
+		},
+		ddd(times) { // 迷宫时间计算
+			let mins = 0;
+			times.forEach(time => {
+				if (time.indexOf('d') > -1) {
+					mins += (parseInt(time) * 24 * 60);
+				} else if (time.indexOf('h')) {
+					mins += (parseInt(time)) * 60;
+				} else {
+					mins += parseInt(time);
+				}
+			});
+			return mins;
+		},
 	},
 	watch: {
 		// '$route'(to, from) {
