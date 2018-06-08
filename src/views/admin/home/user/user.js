@@ -24,8 +24,6 @@ const user = {
 	// 每个标签页的数据
 	panelData: {
 		user: {
-			// 条件刷选
-			commonConditionComponents: [],
 			// 表格列
 			commonTableField: [
 				{
@@ -104,21 +102,21 @@ const user = {
 						label: '用户名',
 						// required 默认为true
 						// 根据rules传入的方法数据动态设置验证方法
-						// rules: [
-						// 	{
-						// 		method: 'lngValid',
-						// 		params: {
-						// 			lng: 255
-						// 		}
-						// 	},
-						// 	{
-						// 		method: 'checkValid',
-						// 		trigger: 'blur',
-						// 		params: {
-						// 			cfield: 'name',
-						// 		}
-						// 	}
-						// ],
+						rules: [
+							{
+								method: 'lengthValid',
+								params: {
+									length: [2, 50],
+								},
+							},
+							{
+								method: 'checkValid',
+								trigger: 'blur',
+								// params: {
+								// 	// cfield: 'name',
+								// }
+							}
+						],
 						value: null,
 					},
 					{

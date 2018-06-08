@@ -77,6 +77,7 @@ export default {
 						this.mixCurrentModel(routeObj.params.model, this.routePath);
 					} else {
 						this.routePath = `/admin/${routeObj.params.model}`;
+						console.log(this.routePath);
 						this.mixCurrentModel(routeObj.params.model, routeObj.params.model);
 					}
 				}

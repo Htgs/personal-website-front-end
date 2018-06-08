@@ -77,24 +77,9 @@ export default {
 							console.log(res.data);
 							this.$store.commit('SET_USERINFO', res.data);
 							this.$router.push('/admin');
-						})
-						.catch(err => {
-							let message = '';
-							if (err.response) {
-								message = `${err.response.data}`;
-							} else {
-								message = err.message;
-							}
-							this.$message({
-								message: message,
-								type: 'error',
-								duration: 1500,
-							});
 						});
 				})
-				.catch(_ => {
-					console.log(_);
-				});
+				.catch(_ => {});
 		},
 	}
 };

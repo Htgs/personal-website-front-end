@@ -14,6 +14,8 @@ import ElementComponents from './assets/elementui.js';
 import {ajax} from './utils/ajax.js';
 import {urlPrefix} from './utils/utils.js';
 
+import { Message } from 'element-ui';
+
 // 引入样式
 require('../static/style/index.scss');
 
@@ -100,20 +102,36 @@ axios.interceptors.response.use(function(response) {
 	// Do something with response data
 	return response;
 }, function(error) {
+	console.dir(error);
+	if (error.response && error.response.status === 401) {
+		Message({
+			message: '未通过授权',
+			type: 'error',
+		});
+	} else if (error.response && error.response.status === 404) {
+		Message({
+			message: '请求接口不存在',
+			type: 'error',
+		});
+	} else if (error.response && error.response.status === 422) {
+		Message({
+			message: error.response.data,
+			type: 'error',
+		});
+	} else {
+		if (error.response && error.response.data) {
+			Message({
+				message: error.response.data,
+				type: 'error',
+			});
+		} else {
+			Message({
+				message: '服务器错误',
+				type: 'error',
+			});
+		}
+	}
 	// Do something with response error
-	// let msg = '';
-	// if (error.response && error.response.status === 401) {
-	// 	msg = '未登录或者权限不足';
-	// } else if (error.response && error.response.status === 404) {
-	// 	msg = '请求接口不存在';
-	// } else if (error.response && error.response.status === 500) {
-	// 	msg = '服务器错误';
-	// } else if (error.response && error.response.status === 504) {
-	// 	msg = '请求超时';
-	// } else {
-	// 	msg = '请求错误';
-	// }
-	// error = Object.assign(error, {msg: msg});
 	return Promise.reject(error);
 });
 

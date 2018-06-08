@@ -1,3 +1,4 @@
+import {check} from './commonApi.js';
 module.exports = {
 	// unique: function() {
 	// },
@@ -11,19 +12,26 @@ module.exports = {
 	 * 参数：cfield(String)
 	 */
 	checkValid: (rule, value, callback) => {
-		// let params = {
-		// 	id: rule['id'],
-		// 	field: rule['cfield'],
-		// 	value: value,
-		// }
-		// check(rule['vm'], rule['route'], params)
-		// 	.then(data => {
-		// 		if (data.res === 'true') {
-		// 			callback()
-		// 		} else {
-		// 			callback(new Error(rule['label'] + '已存在'))
-		// 		}
-		// 	})
+		let params = {
+			id: rule['id'],
+			field: rule['field'],
+			value: value,
+		};
+		check(rule['route'], params)
+			.then(data => {
+				if (data.res === true) {
+					callback();
+				} else {
+					callback(new Error(`${rule['label']}已存在`));
+				}
+			});
+	},
+	lengthValid: (rule, value, callback) => {
+		if (value.length < rule['length'][0] || value.length > rule['length'][1]) {
+			callback(new Error(`${rule['label']}的长度范围为${rule['length'][0]}至${rule['length'][1]}！`));
+		} else {
+			callback();
+		}
 	},
 	/**
 	 * accountValid 登录验证

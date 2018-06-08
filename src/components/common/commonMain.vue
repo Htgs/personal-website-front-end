@@ -449,6 +449,7 @@ export default {
 		if (this.route && this.route !== '') {
 			this.ajaxIndex();
 		}
+		console.log(this.route);
 	},
 	methods: {
 		// 头部返回上级
