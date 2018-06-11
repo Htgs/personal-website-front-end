@@ -49,6 +49,9 @@ module.exports = {
 			ajax('put', urlPrefix(`${route}/${id}`), params, hasFile)
 				.then(res => {
 					resolve(res.data);
+				})
+				.catch(err => {
+					resolve(err);
 				});
 		});
 	},

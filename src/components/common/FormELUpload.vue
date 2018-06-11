@@ -40,7 +40,7 @@ export default {
 		},
 		handleExceed(file, fileList) {
 			let limit = this.formItemData.limit ? this.formItemData.limit : 1;
-			this.$mg(this, `超出文件个数限制，最大文件上限为${limit}`, 'warning', 1500);
+			this.$message.warning(`超出文件个数限制，最大文件上限为${limit}`);
 		},
 		handlePictureCardPreview(file) {
 			this.dialogImageUrl = file.url;

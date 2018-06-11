@@ -1,12 +1,16 @@
 module.exports = {
 	// 表单上传
-	FormElUpload: function(value) {
+	FormElUpload: function(item, row) {
+		let value = row[item['field']];
 		if (value) {
-			return [{
-				url: `/uploads/${value}`,
-			}];
+			return {
+				...item,
+				value: [{
+					url: `/uploads/${value}`,
+				}]
+			};
 		} else {
-			return [];
+			return item;
 		}
 	},
 };

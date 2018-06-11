@@ -1,3 +1,4 @@
+import {isString} from './utils.js';
 module.exports = {
 	// 表单上传
 	FormElUpload: function(item) {

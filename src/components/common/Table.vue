@@ -35,7 +35,6 @@
 					:field="tf.field"
 					:params="tf.props"
 					:ky="ky"
-					v-on:status="emitTableStatus"
 				/>
 				<div v-else>
 					{{scope.row[tf.field]}}
@@ -132,9 +131,6 @@ export default {
 		},
 		handleTableSelection(selects) {
 			this.$emit('handleTableSelection', selects);
-		},
-		emitTableStatus(msg) {
-			this.$emit('emitTableStatus', msg);
 		},
 		tableEdit(msg) {
 			this.$emit('tableEdit', msg);

@@ -3,8 +3,8 @@ import FormElUpload from '@/components/common/FormElUpload.vue';
 // import validtor from '../../../../public/utils/validator.js'
 // import { ajax } from '../../../../public/utils/ajax.js'
 import {isArray, isObject} from '@/utils/utils.js';
-import {FormElUpload as avatarSerialize} from '@/utils/customSerializeFn.js';
-import {FormElUpload as avatarEdit} from '@/utils/customEditFn.js';
+import customSerializeFn from '@/utils/customSerializeFn.js';
+import customEditFn from '@/utils/customEditFn.js';
 
 const user = {
 	// 是否显示设置
@@ -106,16 +106,16 @@ const user = {
 							{
 								method: 'lengthValid',
 								params: {
-									length: [2, 50],
+									length: [2, 10],
 								},
 							},
 							{
 								method: 'checkValid',
 								trigger: 'blur',
-								// params: {
-								// 	// cfield: 'name',
-								// }
-							}
+								params: {
+									cfield: 'name',
+								}
+							},
 						],
 						value: null,
 					},
@@ -123,37 +123,56 @@ const user = {
 						component: 'ElInput',
 						field: 'email',
 						label: '邮箱',
-						// rules: [
-						// 	{
-						// 		method: 'fixedLngValid',
-						// 		params: {
-						// 			lng: 4
-						// 		}
-						// 	}
-						// ],
+						rules: [
+							{
+								method: 'patternValid',
+								params: {
+									pattern: 'email',
+								},
+							},
+							{
+								method: 'checkValid',
+								trigger: 'blur',
+								params: {
+									cfield: 'email',
+								}
+							},
+						],
 						value: null,
 					},
 					{
 						component: 'ElInput',
-						inputType: 'password',
-						field: 'password',
-						label: '密码',
-						required: type === 'edit' ? false : true,
-						disabled: type === 'edit' ? true : false,
-						// rules: [
-						// 	{
-						// 		method: 'fixedLngValid',
-						// 		params: {
-						// 			lng: 4
-						// 		}
-						// 	}
-						// ],
+						field: 'phone',
+						label: '手机号码',
+						rules: [
+							{
+								method: 'patternValid',
+								params: {
+									pattern: 'phone',
+								},
+							},
+							{
+								method: 'checkValid',
+								trigger: 'blur',
+								params: {
+									cfield: 'phone',
+								}
+							},
+						],
 						value: null,
 					},
 					{
 						component: 'ElInput',
 						field: 'niname',
 						label: '昵称',
+						rules: [
+							{
+								method: 'lengthValid',
+								params: {
+									length: [2, 6],
+								},
+							},
+						],
 						value: null,
 					},
 					{
@@ -162,8 +181,8 @@ const user = {
 						label: '头像',
 						required: false,
 						value: [],
-						customSerializeFn: avatarSerialize,
-						customEditFn: avatarEdit,
+						customSerializeFn: customSerializeFn.FormElUpload,
+						customEditFn: customEditFn.FormElUpload,
 					},
 					{
 						component: 'ElInput',
@@ -178,27 +197,24 @@ const user = {
 						label: '性别',
 						radioList: [
 							{
+								name: '保密',
+								id: '0'
+							},
+							{
 								name: '男',
-								id: 0
+								id: '1'
 							},
 							{
 								name: '女',
-								id: 1
+								id: '2'
 							},
 						],
-						value: null,
+						value: '0',
 					},
 					{
 						component: 'ElDate',
 						field: 'birth_date',
 						label: '出生日期',
-						required: false,
-						value: null,
-					},
-					{
-						component: 'ElInput',
-						field: 'phone',
-						label: '手机号码',
 						required: false,
 						value: null,
 					},

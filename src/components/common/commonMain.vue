@@ -52,11 +52,6 @@
 		<!-- 条件筛选 -->
 		<div class="common-condition clearfix">
 			<div class="pull-left mr-10">
-				<commonElSelect
-					ref="cstatusSelect"
-					v-if="hasConditionStatusSelect"
-					v-on:selectChange="handleFilter"
-				/>
 				<!-- 自定义筛选条件 -->
 				<component
 					class="mr-10"
@@ -117,7 +112,6 @@
 				:commonTableOperationComponents="commonTableOperationComponents"
 				v-on:handleTableSort="handleTableSort"
 				v-on:handleTableSelection="handleTableSelection"
-				v-on:emitTableStatus="emitTableStatus"
 				v-on:tableEdit="tableEdit"
 				v-on:tableDelete="tableDelete"
 				v-on:emitOperationBtn="emitOperationBtn"
@@ -233,13 +227,6 @@ export default {
 		hasTabs() {
 			if (this.model.hasTabs) {
 				return this.model.hasTabs;
-			} else {
-				return false;
-			}
-		},
-		hasConditionStatusSelect() {
-			if (this.model.hasConditionStatusSelect) {
-				return this.model.hasConditionStatusSelect;
 			} else {
 				return false;
 			}
@@ -449,7 +436,6 @@ export default {
 		if (this.route && this.route !== '') {
 			this.ajaxIndex();
 		}
-		console.log(this.route);
 	},
 	methods: {
 		// 头部返回上级
@@ -494,20 +480,9 @@ export default {
 				console.error('请在model中customOperationFn对象添加对应按钮type的回调方法');
 			}
 		},
-		// 表格状态改变方法
-		emitTableStatus(msg) {
-			status(this.route, msg.id)
-				.then(data => {
-					this.swtich_option_tableData({data: data, id: msg.id});
-					if (data.res === 1) {
-						this.$mg(this, '已启用', 'success', 1000);
-					} else {
-						this.$mg(this, '已停用', 'success', 1000);
-					}
-				});
-		},
 		// 表单对话框通讯方法
 		emitDialogSave(msg) {
+			console.log(msg);
 			this[`${msg.type}Save`](msg);
 		},
 		// 删除对话框通讯方法
@@ -515,13 +490,13 @@ export default {
 			destroy(this.route, msg.id)
 				.then(data => {
 					if (isObject(data)) {
-						this.$mg(this, '删除成功', 'success', 1000);
+						this.$message.success('删除成功');
 						this.emitCloseDialog('delete');
 						this.ajaxIndex();
 						// 更新缓存
 						this.model.vuxcache && this.model.vuxcache(this);
 					} else if (isString(data)) {
-						this.$mg(this, data, 'error', 1000);
+						this.$message.error(data);
 					}
 				});
 		},
@@ -558,9 +533,6 @@ export default {
 			this.filter = {
 				query_text: '',
 			};
-			if (this.hasConditionStatusSelect) {
-				this.$refs['cstatusSelect'].params.value = undefined;
-			}
 			this.ajaxIndex();
 		},
 		// 表格编辑
@@ -569,17 +541,18 @@ export default {
 				.then(data => {
 					// 对编辑的数据行的数据进行判断，并且作出限制
 					if (this.model.commontableEditLimit && data[this.model.commontableEditLimit.field] === this.model.commontableEditLimit.value) {
-						this.$mg(this, this.model.commontableEditLimit.content, 'warning', 2000);
+						this.$message.warning(this.model.commontableEditLimit.content);
 						return;
 					}
 					this.formData = this.setFormData(scope.type, data);
+					console.log(this.formData);
 					this.formVisible = true;
 				});
 		},
 		// 表格删除
 		tableDelete(scope) {
 			// if (this.model.commontableDeleteLimit && scope.row[this.model.commontableDeleteLimit.field] === this.model.commontableDeleteLimit.value) {
-			// 	this.$mg(this, this.model.commontableDeleteLimit.content, 'warning', 2000)
+			// 	this.$message.warning(this.model.commontableDeleteLimit.content)
 			// 	return
 			// }
 			this.deleteData = scope.row;
@@ -588,7 +561,7 @@ export default {
 		// 批量删除
 		batchDestroy(scope) {
 			if (this.tableSelection.length === 0) {
-				this.$mg(this, '未选择删除项', 'warning', 2000);
+				this.$message.warning('未选择删除项');
 				return;
 			}
 			this.$confirm(`是否要删除这${this.tableSelection.length}条数据`)
@@ -599,9 +572,9 @@ export default {
 					batchDestroy(this.route, params)
 						.then(data => {
 							if (data.res === 'true') {
-								this.$mg(this, '删除成功', 'success', 1000);
+								this.$message.success('删除成功');
 							} else {
-								this.$mg(this, '删除失败', 'error', 1000);
+								this.$message.error('删除失败');
 							}
 							this.ajaxIndex();
 							// 更新缓存
@@ -618,7 +591,7 @@ export default {
 			};
 			store(this.route, params, params._hasfile)
 				.then(data => {
-					this.$mg(this, '保存成功', 'success', 2000);
+					this.$message.success('保存成功');
 					this.$refs['commonFormDialog'].saveSetting.loading = false;
 					this.emitCloseDialog('form');
 					this.ajaxIndex();
@@ -635,16 +608,18 @@ export default {
 				_type: formData.type,
 				...serializeData(formData.formField)
 			};
+			console.log(params);
 			update(this.route, formData.id, params, params._hasfile)
 				.then(data => {
-					this.$mg(this, '保存成功', 'success', 2000);
+					this.$message.success('保存成功');
 					this.$refs['commonFormDialog'].saveSetting.loading = false;
 					this.emitCloseDialog('form');
 					this.edit_option_tableData(data);
 					// 更新缓存
 					this.model.vuxcache && this.model.vuxcache(this);
 				})
-				.catch(() => {
+				.catch(err => {
+					console.dir(err);
 					this.$refs['commonFormDialog'].saveSetting.loading = false;
 				});
 		},
@@ -749,9 +724,6 @@ export default {
 				this.filter = {
 					query_text: '',
 				};
-				if (this.hasConditionStatusSelect && this.$refs['cstatusSelect']) {
-					this.$refs['cstatusSelect'].params.value = undefined;
-				}
 				this.commonConditionComponents.forEach(c => {
 					if (c.props) {
 						c.props.value = undefined;

@@ -9,6 +9,7 @@
 					ref="loginForm"
 					:FormSetting="{'label-width': '80px'}"
 					:FormData="loginForm"
+					v-on:submitForm="submitForm('loginForm')"
 				/>
 				<el-button class="block login-btn" type="primary" @click="submitForm('loginForm')">登录</el-button>
 			</el-card>
@@ -33,8 +34,13 @@ export default {
 					{
 						component: 'ElInput',
 						label: '账号',
-						placeholder: '请输入用户名/邮箱/电话',
+						placeholder: '请输入用户名/邮箱/手机号码',
 						field: 'account',
+						// rules: [
+						// 	{
+						// 		method: 'accountValid',
+						// 	},
+						// ],
 						value: null,
 					},
 					{
@@ -43,6 +49,14 @@ export default {
 						label: '密码',
 						placeholder: '请输入密码',
 						field: 'password',
+						rules: [
+							{
+								method: 'lengthValid',
+								params: {
+									length: [6, 12],
+								},
+							},
+						],
 						value: null,
 					},
 					{
@@ -54,7 +68,7 @@ export default {
 						value: null,
 					},
 				]
-			}
+			},
 		};
 	},
 	methods: {
@@ -65,9 +79,9 @@ export default {
 						password: params['password'],
 						week: params['week'],
 					};
-					if (pattern['isEmail'](params['account'])) {
+					if (pattern['email'](params['account'])) {
 						data['email'] = params['account'];
-					} else if (pattern['isPhone'](params['account'])) {
+					} else if (pattern['phone'](params['account'])) {
 						data['phone'] = params['account'];
 					} else {
 						data['name'] = params['account'];

@@ -14,6 +14,7 @@
 				:type="item.inputType ? item.inputType : 'text'"
 				:disabled="item.disabled ? item.disabled : false"
 				v-model="item.value"
+				@keyup.enter.native="submitForm()"
 			/>
 			<el-select
 				v-else-if="item.component === 'ElSelect'"
@@ -121,6 +122,7 @@ export default {
 		 */
 		validate() {
 			return new Promise((resolve, reject) => {
+				console.log(this.FormData);
 				this.$refs['FormData'].validate((valid) => {
 					if (valid) {
 						const params = {
@@ -139,6 +141,10 @@ export default {
 		reset() {
 			this.$refs['FormData'].resetFields();
 		},
+		// 回车键提交表单
+		submitForm() {
+			this.$emit('submitForm');
+		},
 		isArray,
 		// 动态设置验证规则
 		_setRules(item) {
@@ -156,7 +162,8 @@ export default {
 						// elementUI必须
 						validator: ElValidation[valid.method],
 						label: item.label,
-						trigger: valid.trigger ? valid.trigger : 'change blur',
+						trigger: valid.trigger ? valid.trigger : ['blur', 'change'],
+						required: item.required,
 						// check接口参数
 						vm: this,
 						route: this.route,

@@ -18,6 +18,7 @@ module.exports = {
     proxyTable: {
         '/api/**': proxyTableOptions,
         '/**': proxyTableOptions,
+        '/uploads': proxyTableOptions,
     },
 
     // Various Dev Server settings

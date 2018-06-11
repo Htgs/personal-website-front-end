@@ -16,6 +16,8 @@
 					ref="formDialogData"
 					:FormSetting="{'label-width': '100px'}"
 					:FormData="commonFormData"
+					:route="route"
+					v-on:submitForm="save"
 				/>
 			</el-scrollbar>
 		</div>
@@ -77,6 +79,7 @@ export default {
 		save() {
 			this.$refs['formDialogData'].validate()
 				.then(({FormData, params}) => {
+					console.log(1);
 					this.saveSetting.loading = true;
 					this.$emit('save', FormData);
 				})
