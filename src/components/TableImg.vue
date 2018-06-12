@@ -2,7 +2,7 @@
 	<div>
 		<el-button v-if="row[field]" @click="visible = true" type="text">查看</el-button>
 		<el-dialog :title="`${row[params['name']]}的头像`" :visible.sync="visible" append-to-body>
-			<img class="block-center" :src="`/${row[field]}`" alt="`@${row[params['name']]}`">
+			<img class="block w100 h100" :src="`/${row[field]}`" alt="`@${row[params['name']]}`">
 		</el-dialog>
 	</div>
 </template>

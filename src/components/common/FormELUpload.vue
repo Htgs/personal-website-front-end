@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import {resizeImg} from '../../utils/utils.js';
 export default {
 	name: 'FormElUpload',
 	props: {
@@ -32,8 +33,27 @@ export default {
 		};
 	},
 	methods: {
-		handleChange(file, fileList) {
-			this.formItemData.value = fileList;
+		async handleChange(file, fileList) {
+			if (file.size > 1024 * 100) {
+				let resizeFile = await resizeImg(file.raw);
+				let newFile = {
+					name: resizeFile.name,
+					percentage: 0,
+					size: resizeFile.size,
+					raw: resizeFile,
+					status: 'ready',
+					uid: file.uid,
+				};
+				try {
+					newFile.url = URL.createObjectURL(resizeFile);
+				} catch (err) {
+					console.error(err);
+					return;
+				}
+				this.formItemData.value = [newFile];
+			} else {
+				this.formItemData.value = fileList;
+			}
 		},
 		handleRemove(file, fileList) {
 			this.formItemData.value = [];

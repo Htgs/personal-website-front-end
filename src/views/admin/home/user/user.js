@@ -7,7 +7,7 @@ import {isArray, isObject} from '@/utils/utils.js';
 import customSerializeFn from '@/utils/customSerializeFn.js';
 import customEditFn from '@/utils/customEditFn.js';
 
-import {GENDER} from '@/store/staticState.js'
+import {GENDER} from '@/store/staticState.js';
 
 const user = {
 	// 是否显示设置
@@ -67,6 +67,7 @@ const user = {
 				{
 					label: '性别',
 					field: 'gender',
+					sortable: 'custom',
 				},
 				{
 					label: '出生日期',

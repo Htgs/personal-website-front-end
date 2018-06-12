@@ -76,5 +76,53 @@ module.exports = {
 		url = url.replace(regx, '');
 		return `/${prefix}/${url}`;
 	},
-
+	resizeImg: function(file) {
+		return new Promise((resolve) => {
+			let reader = new FileReader(),
+				image = new Image(),
+				canvas = document.createElement('canvas');
+			let context = canvas.getContext('2d');
+			image.onload = function() {
+				// 获取图片尺寸
+				let originWidth = this.width,
+					originHeight = this.height;
+				// // 超过这个值base64无法生成，在IOS上
+				// if (originWidth >= 3264 || originHeight >= 2448) {
+				// 	originWidth *= 0.8;
+				// 	originHeight *= 0.8;
+				// }
+				canvas.width = originWidth;
+				canvas.height = originHeight;
+				// 清除画布
+				context.clearRect(0, 0, originWidth, originHeight);
+				// 图片压缩
+				context.drawImage(this, 0, 0, originWidth, originHeight);
+				// let img = canvas.toDataURL('image/jpeg', 0.1);
+				// canvas.toBlob(function(blob) {
+				// 	console.log(blob);
+				// }, 'image/jpeg', 0.1);
+				let imgbase64 = canvas.toDataURL('image/jpeg', 0.9);
+				// 把dataURL转换成文件
+				function dataURLtoFile(dataurl, filename) {
+					var arr = dataurl.split(','),
+						mime = arr[0].match(/:(.*?);/)[1],
+						bstr = atob(arr[1]),
+						n = bstr.length,
+						u8arr = new Uint8Array(n);
+					while (n--) {
+						u8arr[n] = bstr.charCodeAt(n);
+					}
+					return new File([u8arr], filename, {type: mime});
+				}
+				let f = dataURLtoFile(imgbase64, file.name);
+				resolve(f);
+			};
+			reader.onload = (function(img) {
+				return function(e) {
+					img.src = e.target.result;
+				};
+			})(image);
+			reader.readAsDataURL(file);
+		});
+	},
 };
