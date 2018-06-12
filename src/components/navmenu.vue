@@ -66,16 +66,16 @@ export default {
 				},
 				{
 					display_name: '文章管理',
-					resource: '/admin/article',
+					resource: 'article',
 					icon: 'el-icon-document',
 					children: [
 						{
 							display_name: '文章分类',
-							resource: '/admin/article/article-category',
+							resource: '/admin/article-category',
 						},
 						{
 							display_name: '文章列表',
-							resource: '/admin/article/article',
+							resource: '/admin/article',
 						},
 					],
 				},
@@ -86,16 +86,16 @@ export default {
 				},
 				{
 					display_name: '系统管理',
-					resource: '/admin/system',
+					resource: 'system',
 					icon: 'el-icon-setting',
 					children: [
 						{
 							display_name: '日志管理',
-							resource: '/admin/system/logs',
+							resource: '/admin/logs',
 						},
 						{
 							display_name: '权限设置',
-							resource: '/admin/system/permission',
+							resource: '/admin/permission',
 						},
 					],
 				},

@@ -1,8 +1,8 @@
 import TablePopover from '@/components/common/TablePopover.vue';
-import TableImg from '@/components/TableImg.vue';
 import FormElUpload from '@/components/common/FormElUpload.vue';
-// import validtor from '../../../../public/utils/validator.js'
-// import { ajax } from '../../../../public/utils/ajax.js'
+
+import TableImg from '@/components/TableImg.vue';
+
 import {isArray, isObject} from '@/utils/utils.js';
 import customSerializeFn from '@/utils/customSerializeFn.js';
 import customEditFn from '@/utils/customEditFn.js';
@@ -222,6 +222,11 @@ const user = {
 						field: 'birth_date',
 						label: '出生日期',
 						required: false,
+						pickerOptions: {
+							disabledDate(time) {
+								return time.getTime() > Date.now();
+							},
+						},
 						value: null,
 					},
 					{

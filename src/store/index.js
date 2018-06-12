@@ -9,6 +9,8 @@ Vue.use(Vuex);
 const state = {
 	...staticState,
 	userinfo: {},
+
+	ARTICLE_CATEGORY: [],
 };
 
 // getters
@@ -30,17 +32,17 @@ const actions = {
 	 * @param    {Object}        options.params [ajax请求所需参数，默认{}]
 	 * @return   {[Promise]}                    [返回一个promise函数]
 	 */
-	getStaticData({ state, commit }, { vm, arr, url, params = {} }) {
-		// return new Promise(resolve => {
-		// 	if (state[arr].length > 0) {
-		// 		resolve(state[arr])
-		// 	} else {
-		// 		ajax.call(vm, 'get', url, params, data => {
-		// 			commit(arr, data)
-		// 			resolve(data)
-		// 		})
-		// 	}
-		// })
+	getStaticData({ state, commit }, { arr, url, params = {} }) {
+		return new Promise(resolve => {
+			if (state[arr].length > 0) {
+				resolve(state[arr])
+			} else {
+				ajax.call('get', url, params, data => {
+					commit(arr, data)
+					resolve(data)
+				})
+			}
+		})
 	},
 };
 
@@ -60,6 +62,9 @@ const mutations = {
 		if (localStorage.getItem('b-token')) {
 			localStorage.removeItem('b-token');
 		}
+	},
+	[mt.SET_ARTICLE_CATEGORY](state, article_category) {
+		state.ARTICLE_CATEGORY = article_category;
 	},
 };
 

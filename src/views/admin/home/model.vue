@@ -57,6 +57,7 @@ export default {
 		 * @param    {Object}   routeObj [当前的路由对象]
 		 */
 		set(routeObj) {
+			console.log(routeObj);
 			// 不是详情页：
 			// 存在current和没有current的情况
 			// 详情页
