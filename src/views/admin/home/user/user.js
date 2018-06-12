@@ -1,10 +1,13 @@
-import tablePopover from '@/components/common/TablePopover.vue';
+import TablePopover from '@/components/common/TablePopover.vue';
+import TableImg from '@/components/TableImg.vue';
 import FormElUpload from '@/components/common/FormElUpload.vue';
 // import validtor from '../../../../public/utils/validator.js'
 // import { ajax } from '../../../../public/utils/ajax.js'
 import {isArray, isObject} from '@/utils/utils.js';
 import customSerializeFn from '@/utils/customSerializeFn.js';
 import customEditFn from '@/utils/customEditFn.js';
+
+import {GENDER} from '@/store/staticState.js'
 
 const user = {
 	// 是否显示设置
@@ -40,7 +43,7 @@ const user = {
 				{
 					label: '邮箱',
 					field: 'email',
-					component: tablePopover,
+					component: TablePopover,
 					props: {
 						className: 'block miaosu',
 					},
@@ -52,6 +55,10 @@ const user = {
 				{
 					label: '头像',
 					field: 'avatar',
+					component: TableImg,
+					props: {
+						name: 'name',
+					},
 				},
 				{
 					label: '真实姓名',
@@ -60,7 +67,6 @@ const user = {
 				{
 					label: '性别',
 					field: 'gender',
-					sortable: 'custom',
 				},
 				{
 					label: '出生日期',
@@ -70,13 +76,12 @@ const user = {
 				{
 					label: '手机号码',
 					field: 'phone',
-					sortable: 'custom',
 				},
 			],
 			// 表格列特殊值处理
 			tableFieldFn: function(data) {
 				const g = function(gender) {
-					return gender === 1 ? '女' : '男';
+					return GENDER[gender];
 				};
 				if (isArray(data)) {
 					data.forEach(v => {

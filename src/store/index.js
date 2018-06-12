@@ -1,11 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import * as mt from './mutations_types';
+import staticState from './staticState.js';
 
 Vue.use(Vuex);
 
 // initial state
 const state = {
+	...staticState,
 	userinfo: {},
 };
 

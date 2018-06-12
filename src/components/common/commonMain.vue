@@ -608,7 +608,6 @@ export default {
 				_type: formData.type,
 				...serializeData(formData.formField)
 			};
-			console.log(params);
 			update(this.route, formData.id, params, params._hasfile)
 				.then(data => {
 					this.$message.success('保存成功');

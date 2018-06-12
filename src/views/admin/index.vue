@@ -6,6 +6,7 @@
 				首页
 				<el-dropdown-menu slot="dropdown">
 					<el-dropdown-item command="my">我的</el-dropdown-item>
+					<el-dropdown-item command="password">修改密码</el-dropdown-item>
 					<el-dropdown-item command="logout">退出</el-dropdown-item>
 				</el-dropdown-menu>
 			</el-dropdown>
@@ -90,6 +91,14 @@ export default {
 				name: 'Model',
 				params: {
 					model: 'user-info',
+				},
+			});
+		},
+		password() {
+			this.$router.history.push({
+				name: 'Model',
+				params: {
+					model: 'password',
 				},
 			});
 		},

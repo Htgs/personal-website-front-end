@@ -6,7 +6,7 @@ module.exports = {
 			return {
 				...item,
 				value: [{
-					url: `/uploads/${value}`,
+					url: `/${value}`,
 				}]
 			};
 		} else {

@@ -18,11 +18,6 @@ module.exports = {
 		} else {
 			if (hasFile) {
 				// 当有文件的情况
-				// 当前提交是update时，后台方法为put 但是put方法是不能获取到formdata的数据
-				if (type === 'put') {
-					type = 'post';
-					Object.assign(data, {_method: 'PUT'}); // laravel的伪方法
-				}
 				config = {
 					headers: {
 						'Content-Type': 'multiple/form-data'
