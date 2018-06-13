@@ -4,6 +4,7 @@ import {show} from '../utils/commonApi.js';
 import {transformTime} from '@/utils/utils.js';
 
 import TableCacheName from './TableCacheName.vue';
+import TableAssociation from './TableAssociation.vue';
 export default {
 	name: 'TableDetail',
 	props: {
@@ -50,11 +51,11 @@ export default {
 				return (<img class="inline" width="200" height="200" src={`/${this.current[key]}`} alt={this.current[key]} />);
 			} else if (this.params['caches'] && this.params['caches'].find(cache => cache.field === key)) {
 				let cache = this.params['caches'].find(cache => cache.field === key);
-				return <TableCacheName row={this.current} field={cache.field} params={cache.props}/>
+				return (<TableCacheName row={this.current} field={cache.field} params={cache.props}/>);
 			} else {
-				return (<div>this.current[key]</div>);
+				return (<div>{this.current[key]}</div>);
 			}
-		}
+		};
 		return (
 			<div>
 				<el-button type='text' onClick={this.detail}>{this.row[this.field]}</el-button>
@@ -82,10 +83,10 @@ export default {
 											<el-row
 												class="w100 mb-10"
 												key={key}
-												gutter="20">
-												<el-col span="6">{this[this.params['model']][key]}：</el-col>
-												<el-col span="18">
-													<Content key={key} />
+												gutter={20}>
+												<el-col span={6}>{this[this.params['model']][key]}：</el-col>
+												<el-col span={18}>
+													{Content(key)}
 												</el-col>
 											</el-row>
 										))

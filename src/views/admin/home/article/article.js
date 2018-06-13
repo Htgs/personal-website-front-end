@@ -2,6 +2,7 @@ import FormAjaxElSelect from '@/components/common/FormAjaxElSelect.vue';
 import TableCacheName from '@/components/TableCacheName.vue';
 import TableTime from '@/components/TableTime.vue';
 import TableDetail from '@/components/TableDetail.vue';
+import TableAssociation from '@/components/TableAssociation.vue';
 
 import {urlPrefix} from '@/utils/utils.js';
 
@@ -59,7 +60,11 @@ const article = {
 			commonTableField: [
 				{
 					label: '作者',
-					field: 'user_id',
+					field: 'niname', // 关联数据的字段
+					component: TableAssociation,
+					props: {
+						association: 'user',
+					},
 				},
 				{
 					label: '文章分类',
