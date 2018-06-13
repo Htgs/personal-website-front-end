@@ -1,4 +1,10 @@
 import TablePopover from '@/components/common/TablePopover.vue';
+import FormAjaxElSelect from '@/components/common/FormAjaxElSelect.vue';
+import TableCacheName from '@/components/TableCacheName.vue';
+import TableTime from '@/components/TableTime.vue';
+
+import {ajax} from '@/utils/ajax.js';
+import {urlPrefix} from '@/utils/utils.js';
 
 const articleCategory = {
 	// 是否显示设置
@@ -18,23 +24,47 @@ const articleCategory = {
 	// 每个标签页的数据
 	panelData: {
 		'article-category': {
+			vuxcache(vm) {
+				ajax('get', urlPrefix(`${vm.route}/all`))
+					.then(res => {
+						vm.$store.commit('SET_CACHE_DATA', {
+							cache: 'ARTICLE_CATEGORY',
+							data: res.data,
+						});
+					})
+					.catch(err => {
+						console.log(err);
+					});
+			},
 			// 表格列
 			commonTableField: [
 				{
 					label: '父分类',
-					field: 'parent_name',
+					field: 'pid',
+					component: TableCacheName,
+					props: {
+						cache: 'ARTICLE_CATEGORY',
+						rowName: 'name',
+					},
 				},
 				{
 					label: '分类名称',
 					field: 'name',
 				},
 				{
-					label: '备注',
-					field: 'memo',
-					component: TablePopover,
-					props: {
-						className: 'block miaosu',
-					},
+					label: '创建时间',
+					field: 'created_at',
+					component: TableTime,
+				},
+				{
+					label: '更新时间',
+					field: 'updated_at',
+					component: TableTime,
+				},
+				{
+					label: '删除时间',
+					field: 'deleted_at',
+					component: TableTime,
 				},
 			],
 			// 分页设定
@@ -46,10 +76,27 @@ const articleCategory = {
 			commonFormFieldsFn(type) {
 				return [
 					{
-						component: 'ElSelect',
+						component: FormAjaxElSelect,
 						field: 'pid',
 						label: '父分类',
-						value: null,
+						required: false,
+						value: undefined,
+						getDataFn(vm) {
+							return vm.$store.dispatch('getStaticData', {
+								cache: 'ARTICLE_CATEGORY',
+								url: urlPrefix(`${vm.route}/all`),
+							});
+							// return new Promise((resolve) => {
+							// 	vm.$store.dispatch('getStaticData', {
+							// 		cache: 'ARTICLE_CATEGORY',
+							// 		url: urlPrefix(`${vm.route}/all`),
+							// 	})
+							// 		.then(data => {
+							// 			// 已经成为了子分类的数据不能再作为父分类
+							// 			resolve(data.filter(item => item.pid === null));
+							// 		});
+							// });
+						},
 					},
 					{
 						component: 'ElInput',

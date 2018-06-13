@@ -1,5 +1,5 @@
 <template>
-	<el-select 
+	<el-select
 		clearable
 		:placeholder="formItemData.placeholder ? formItemData.placeholder : '请选择' + formItemData.label"
 		:disabled="formItemData.disabled"
@@ -15,38 +15,38 @@
 	</el-select>
 </template>
 <script>
-	import { isFunction } from '../utils/utils.js'
-	export default {
-		name: 'commonFormAjaxElSelect',
-		props: {
-			route: String,
-			formItemData: Object,
-		},
-		data () {
-			return {
-				loading: true,
-				selectList: [],
+import { isFunction } from '@/utils/utils.js';
+export default {
+	name: 'commonFormAjaxElSelect',
+	props: {
+		route: String,
+		formItemData: Object,
+	},
+	data() {
+		return {
+			loading: true,
+			selectList: [],
+		};
+	},
+	mounted() {
+		this.getAjaxData();
+	},
+	methods: {
+		getAjaxData() {
+			if (!isFunction(this.formItemData.getDataFn)) {
+				console.error(`${this.route}模块中表单域:'${this.formItemData.label}'缺少getDataFn方法`);
+				return;
 			}
+			this.loading = true;
+			this.formItemData.getDataFn(this)
+				.then(data => {
+					this.loading = false;
+					this.selectList = data;
+				});
 		},
-		mounted () {
-			this.getAjaxData()
+		selectChange(value) {
+			this.formItemData.value = value;
 		},
-		methods: {
-			getAjaxData () {
-				if (!isFunction(this.formItemData.getDataFn)) {
-					console.error(`${this.route}模块中表单域:'${this.formItemData.label}'缺少getDataFn方法`)
-					return
-				}
-				this.loading = true
-				this.formItemData.getDataFn(this)
-					.then(data => {
-						this.loading = false
-						this.selectList = data
-					})
-			},
-			selectChange (value) {
-				this.formItemData.value = value
-			},
-		},
-	}
+	},
+};
 </script>

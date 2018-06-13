@@ -122,7 +122,6 @@ export default {
 		 */
 		validate() {
 			return new Promise((resolve, reject) => {
-				console.log(this.FormData);
 				this.$refs['FormData'].validate((valid) => {
 					if (valid) {
 						const params = {

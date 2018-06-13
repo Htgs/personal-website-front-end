@@ -79,7 +79,6 @@ export default {
 		save() {
 			this.$refs['formDialogData'].validate()
 				.then(({FormData, params}) => {
-					console.log(1);
 					this.saveSetting.loading = true;
 					this.$emit('save', FormData);
 				})

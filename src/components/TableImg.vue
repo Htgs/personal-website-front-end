@@ -8,6 +8,7 @@
 </template>
 <script>
 export default {
+	name: 'TableImg',
 	props: {
 		row: Object,
 		field: String,

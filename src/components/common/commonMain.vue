@@ -482,7 +482,6 @@ export default {
 		},
 		// 表单对话框通讯方法
 		emitDialogSave(msg) {
-			console.log(msg);
 			this[`${msg.type}Save`](msg);
 		},
 		// 删除对话框通讯方法
@@ -545,7 +544,6 @@ export default {
 						return;
 					}
 					this.formData = this.setFormData(scope.type, data);
-					console.log(this.formData);
 					this.formVisible = true;
 				});
 		},
