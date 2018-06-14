@@ -4,7 +4,6 @@ import {show} from '../utils/commonApi.js';
 import {transformTime} from '@/utils/utils.js';
 
 import TableCacheName from './TableCacheName.vue';
-import TableAssociation from './TableAssociation.vue';
 export default {
 	name: 'TableDetail',
 	props: {
@@ -47,13 +46,20 @@ export default {
 	},
 	render(h) {
 		const Content = (key) => {
+			let cache;
+			if (this.params['caches']) {
+				cache = this.params['caches'].find(cache => cache.field === key);
+			}
 			if (key === 'avatar') {
-				return (<img class="inline" width="200" height="200" src={`/${this.current[key]}`} alt={this.current[key]} />);
-			} else if (this.params['caches'] && this.params['caches'].find(cache => cache.field === key)) {
-				let cache = this.params['caches'].find(cache => cache.field === key);
+				if (this.current[key]) {
+					return (<img class="inline" width="200" height="200" src={`/${this.current[key]}`} alt={this.current[key]} />);
+				} else {
+					return (<div>暂无上传头像</div>);
+				}
+			} else if (cache) {
 				return (<TableCacheName row={this.current} field={cache.field} params={cache.props}/>);
 			} else {
-				return (<div>{this.current[key]}</div>);
+				return (<div>{this.current[key] ? this.current[key] : '无'}</div>);
 			}
 		};
 		return (

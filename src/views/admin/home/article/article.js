@@ -1,8 +1,8 @@
+import ElButton from '@/components/common/ElButton.vue';
 import FormAjaxElSelect from '@/components/common/FormAjaxElSelect.vue';
 import TableCacheName from '@/components/TableCacheName.vue';
 import TableTime from '@/components/TableTime.vue';
 import TableDetail from '@/components/TableDetail.vue';
-import TableAssociation from '@/components/TableAssociation.vue';
 
 import {urlPrefix} from '@/utils/utils.js';
 
@@ -50,6 +50,7 @@ const article = {
 	hasTableOperation: true,
 	hasTableOperationEdit: true,
 	hasTableOperationDelete: true,
+	hasTableOperationRecovery: true,
 	hasPaginationBatchDestroy: false,
 	// 标题*
 	commonTitle: '文章管理',
@@ -59,12 +60,12 @@ const article = {
 			// 表格列
 			commonTableField: [
 				{
-					label: '作者',
-					field: 'niname', // 关联数据的字段
-					component: TableAssociation,
-					props: {
-						association: 'user',
-					},
+					label: '作者用户名',
+					field: 'user.name', // 关联数据的字段
+				},
+				{
+					label: '作者昵称',
+					field: 'user.niname', // 关联数据的字段
 				},
 				{
 					label: '文章分类',
@@ -81,6 +82,7 @@ const article = {
 					component: TableDetail,
 					props: {
 						model: 'ARTICLE',
+						// 缓存中获取的数据
 						caches: [
 							{
 								field: 'category_id',
@@ -114,6 +116,24 @@ const article = {
 					label: '删除时间',
 					field: 'deleted_at',
 					component: TableTime,
+				},
+			],
+			commonTableOperationComponents: [
+				{
+					component: ElButton,
+					props: {
+						type: 'text',
+						display_name: '详情',
+						clickFn: (vm, scope) => {
+							// vm.$emit('customEv', { type: 'power', ...scope });
+							vm.$router.push({
+								name: 'Model',
+								params: {
+									model: `article/${scope.row.id}/comment`,
+								},
+							});
+						},
+					},
 				},
 			],
 			// 分页设定

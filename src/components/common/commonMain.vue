@@ -107,6 +107,7 @@
 				:hasTableOperation="hasTableOperation"
 				:hasTableOperationEdit="hasTableOperationEdit"
 				:hasTableOperationDelete="hasTableOperationDelete"
+				:hasTableOperationRecovery="hasTableOperationRecovery"
 				:tableData="tableData"
 				:commonTableField="commonTableField"
 				:commonTableOperationComponents="commonTableOperationComponents"
@@ -283,6 +284,13 @@ export default {
 		hasTableOperationDelete() {
 			if (this.model.hasTableOperationDelete) {
 				return this.model.hasTableOperationDelete;
+			} else {
+				return false;
+			}
+		},
+		hasTableOperationRecovery() {
+			if (this.model.hasTableOperationRecovery) {
+				return this.model.hasTableOperationRecovery;
 			} else {
 				return false;
 			}

@@ -25,7 +25,8 @@ module.exports = {
 		memo: '备注',
 	},
 	ARTICLE: {
-		user_id: '作者',
+		'user.name': '作者用户名',
+		'user.niname': '作者昵称',
 		category_id: '分类',
 		title: '标题',
 		content: '内容',

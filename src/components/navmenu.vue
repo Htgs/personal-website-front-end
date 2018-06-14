@@ -90,13 +90,17 @@ export default {
 					icon: 'el-icon-setting',
 					children: [
 						{
+							display_name: '用户信息',
+							resource: '/admin/user-info',
+						},
+						{
 							display_name: '日志管理',
 							resource: '/admin/logs',
 						},
-						{
-							display_name: '权限设置',
-							resource: '/admin/permission',
-						},
+						// {
+						// 	display_name: '权限设置',
+						// 	resource: '/admin/permission',
+						// },
 					],
 				},
 			]

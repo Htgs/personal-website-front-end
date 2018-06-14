@@ -18,6 +18,7 @@ const articleCategory = {
 	hasTableOperation: true,
 	hasTableOperationEdit: true,
 	hasTableOperationDelete: true,
+	hasTableOperationRecovery: true,
 	hasPaginationBatchDestroy: false,
 	// 标题*
 	commonTitle: '文章分类管理',
@@ -82,20 +83,20 @@ const articleCategory = {
 						required: false,
 						value: undefined,
 						getDataFn(vm) {
-							return vm.$store.dispatch('getStaticData', {
-								cache: 'ARTICLE_CATEGORY',
-								url: urlPrefix(`${vm.route}/all`),
-							});
-							// return new Promise((resolve) => {
-							// 	vm.$store.dispatch('getStaticData', {
-							// 		cache: 'ARTICLE_CATEGORY',
-							// 		url: urlPrefix(`${vm.route}/all`),
-							// 	})
-							// 		.then(data => {
-							// 			// 已经成为了子分类的数据不能再作为父分类
-							// 			resolve(data.filter(item => item.pid === null));
-							// 		});
+							// return vm.$store.dispatch('getStaticData', {
+							// 	cache: 'ARTICLE_CATEGORY',
+							// 	url: urlPrefix(`${vm.route}/all`),
 							// });
+							return new Promise((resolve) => {
+								vm.$store.dispatch('getStaticData', {
+									cache: 'ARTICLE_CATEGORY',
+									url: urlPrefix(`${vm.route}/all`),
+								})
+									.then(data => {
+										// 已经成为了子分类的数据不能再作为父分类
+										resolve(data.filter(item => item.pid === null));
+									});
+							});
 						},
 					},
 					{

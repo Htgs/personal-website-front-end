@@ -23,6 +23,7 @@ const user = {
 	hasTableOperation: true,
 	hasTableOperationEdit: true,
 	hasTableOperationDelete: true,
+	hasTableOperationRecovery: true,
 	hasPaginationBatchDestroy: false,
 	// 标题*
 	commonTitle: '用户管理',

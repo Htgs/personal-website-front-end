@@ -49,17 +49,24 @@
 			<template slot-scope="scope">
 				<!-- 表格编辑 -->
 				<commonElButton
-					v-if="hasTableOperationEdit"
+					v-if="hasTableOperationEdit && !scope.row['deleted_at']"
 					:params="tableEditSetting"
 					:scope="scope"
 					v-on:edit="tableEdit"
 				/>
 				<!-- 表格删除 -->
 				<commonElButton
-					v-if="hasTableOperationDelete"
+					v-if="hasTableOperationDelete && !scope.row['deleted_at']"
 					:params="tableDeleteSetting"
 					:scope="scope"
 					v-on:delete="tableDelete"
+				/>
+				<!-- 表格删除 -->
+				<commonElButton
+					v-if="hasTableOperationRecovery && scope.row['deleted_at']"
+					:params="tableRecoverySetting"
+					:scope="scope"
+					v-on:recovery="tableRecovery"
 				/>
 				<!-- 自定义表格操作按钮 -->
 				<component
@@ -88,6 +95,7 @@ export default {
 		hasTableOperation: Boolean,
 		hasTableOperationEdit: Boolean,
 		hasTableOperationDelete: Boolean,
+		hasTableOperationRecovery: Boolean,
 
 		// 数据
 		tableData: Array, // 表格数据
@@ -116,6 +124,16 @@ export default {
 					vm.$emit('delete', { type: 'delete', ...scope });
 				}
 			},
+			tableRecoverySetting: {
+				type: 'text',
+				loading: false,
+				disabled: false,
+				className: '',
+				display_name: '恢复',
+				clickFn: (vm, scope) => {
+					vm.$emit('recovery', { type: 'recovery', ...scope });
+				}
+			},
 		};
 	},
 	methods: {
@@ -137,6 +155,10 @@ export default {
 		},
 		tableDelete(msg) {
 			this.$emit('tableDelete', msg);
+		},
+		tableRecovery(msg) {
+			console.log('tableRecovery', msg);
+			this.$emit('tableRecovery', msg);
 		},
 		emitOperationBtn(msg) {
 			this.$emit('emitOperationBtn', msg);
