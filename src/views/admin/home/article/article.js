@@ -125,13 +125,14 @@ const article = {
 						type: 'text',
 						display_name: '详情',
 						clickFn: (vm, scope) => {
+							// 显示相关评论
 							// vm.$emit('customEv', { type: 'power', ...scope });
-							vm.$router.push({
-								name: 'Model',
-								params: {
-									model: `article/${scope.row.id}/comment`,
-								},
-							});
+							// vm.$router.push({
+							// 	name: 'Model',
+							// 	params: {
+							// 		model: `article/${scope.row.id}/comment`,
+							// 	},
+							// });
 						},
 					},
 				},

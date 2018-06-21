@@ -6,7 +6,7 @@ import TableDetail from '@/components/TableDetail.vue';
 
 import {urlPrefix} from '@/utils/utils.js';
 
-const article = {
+const comment = {
 	// 是否显示设置
 	hasTitleBack: false,
 	hasTabs: false,
@@ -38,7 +38,7 @@ const article = {
 	},
 	// 每个标签页的数据
 	panelData: {
-		'article': {
+		'comment': {
 			// 表格列
 			commonTableField: [
 				{
@@ -194,4 +194,4 @@ const article = {
 	},
 };
 
-module.exports = article;
+module.exports = comment;

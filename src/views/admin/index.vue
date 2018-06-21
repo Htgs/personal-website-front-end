@@ -13,7 +13,7 @@
 		</el-header>
 		<el-container>
 			<el-aside width="201px">
-				<Navmenu class="h100"/>
+				<Navmenu class="h100" :menus="menus" :defaultOpeneds="defaultOpeneds"/>
 			</el-aside>
 			<el-main>
 				<router-view/>
@@ -37,14 +37,49 @@ export default {
 	computed: {
 		...mapState(['userinfo']),
 	},
+	data() {
+		return {
+			menus: [],
+			defaultOpeneds: [],
+		};
+	},
 	beforeRouteEnter(to, from, next) {
-		ajax('get', '/admin/auth')
-			.then(res => {
+		Promise.all([
+			ajax('get', '/admin/auth'),
+			ajax('get', '/api/admin/menu')
+		])
+			.then(([Auth, Menus]) => {
+				let menus = [], defaultOpeneds = [];
+				Menus.data.forEach(m => {
+					let item = {
+						name: m.name.split('-')[1].toLowerCase(),
+						display_name: m.display_name,
+					};
+					if (m.menus.length > 0) {
+						item['resource'] = m.name.split('-')[1].toLowerCase();
+						item['children'] = [];
+						m.menus.forEach(cm => {
+							item['children'].push({
+								display_name: cm.display_name,
+								resource: cm.resource,
+							});
+						});
+						if (to.path.indexOf(item['resource']) > -1) {
+							defaultOpeneds.push(item['resource']);
+						}
+					} else {
+						item['resource'] = m.resource;
+					}
+					menus.push(item);
+				});
 				next(vm => {
-					vm.$store.commit('SET_USERINFO', res.data);
+					vm.$store.commit('SET_USERINFO', Auth.data);
 					if (vm.$route.path.indexOf('login') > -1) {
 						vm.$router.push('/admin');
 					}
+					vm.defaultOpeneds = defaultOpeneds;
+					vm.menus = menus;
+					console.log(menus);
 				});
 			})
 			.catch(err => {
