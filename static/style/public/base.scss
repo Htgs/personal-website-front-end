@@ -99,6 +99,10 @@ $dirs: bottom, left, top, right;
 	padding: 10px;
 }
 
+.p-0 {
+	padding: 0;
+}
+
 @for $i from 12 through 24 {
 	@if $i % 2 == 0 {
 		.fz-#{$i} {

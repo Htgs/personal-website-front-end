@@ -1,15 +1,8 @@
 <template>
 	<el-container class="h100">
-		<el-header :style="{backgroundColor: '#545c64'}">
+		<el-header style="border: 1px solid #e6e6e6;">
 			<h1 class="pull-left h100 fz-18 title">个人网站后台管理</h1>
-			<el-dropdown class="pull-right mt-10" split-button @click="handleClick" @command="handleCommand">
-				首页
-				<el-dropdown-menu slot="dropdown">
-					<!-- <el-dropdown-item command="my">我的</el-dropdown-item>
-					<el-dropdown-item command="password">修改密码</el-dropdown-item> -->
-					<el-dropdown-item command="logout">退出</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
+			<el-button type="text" class="pull-right mt-10" sytle="color: #fff;" @click="logout">退出</el-button>
 		</el-header>
 		<el-container>
 			<el-aside width="201px">
@@ -97,28 +90,6 @@ export default {
 		});
 	},
 	methods: {
-		handleClick() {
-			this.$router.history.push('/admin');
-		},
-		handleCommand(command) {
-			this[command]();
-		},
-		// my() {
-		// 	this.$router.history.push({
-		// 		name: 'Model',
-		// 		params: {
-		// 			model: 'user-info',
-		// 		},
-		// 	});
-		// },
-		// password() {
-		// 	this.$router.history.push({
-		// 		name: 'Model',
-		// 		params: {
-		// 			model: 'password',
-		// 		},
-		// 	});
-		// },
 		logout() {
 			ajax('get', '/admin/logout')
 				.then(res => {

@@ -1,5 +1,6 @@
 <template>
 	<el-table
+		size="mini"
 		:data="tableData"
 		@sort-change="handleTableSort"
 		@selection-change="handleTableSelection"
@@ -26,6 +27,7 @@
 			:prop="tf.field"
 			:sortable="tf.sortable"
 			:width="tf.width"
+			:show-overflow-tooltip="true"
 			:key="ky">
 			<template slot-scope="scope">
 				<component
@@ -36,16 +38,15 @@
 					:params="tf.props"
 					:ky="ky"
 				/>
-				<div v-else>
-					{{scope.row[tf.field]}}
-				</div>
+				<div v-else class="ellipsis">{{scope.row[tf.field]}}</div>
 			</template>
 		</el-table-column>
 		<el-table-column
 			v-if="hasTableOperation"
 			label="操作"
 			:resizable="false"
-			align="center">
+			align="center"
+			min-width="92">
 			<template slot-scope="scope">
 				<!-- 表格编辑 -->
 				<commonElButton
@@ -61,7 +62,7 @@
 					:scope="scope"
 					v-on:delete="tableDelete"
 				/>
-				<!-- 表格删除 -->
+				<!-- 表格恢复 -->
 				<commonElButton
 					v-if="hasTableOperationRecovery && scope.row['deleted_at']"
 					:params="tableRecoverySetting"
@@ -108,7 +109,7 @@ export default {
 				type: 'text',
 				loading: false,
 				disabled: false,
-				className: '',
+				className: 'p-0',
 				display_name: '编辑',
 				clickFn: (vm, scope) => {
 					vm.$emit('edit', { type: 'edit', ...scope });
@@ -118,7 +119,7 @@ export default {
 				type: 'text',
 				loading: false,
 				disabled: false,
-				className: '',
+				className: 'p-0',
 				display_name: '删除',
 				clickFn: (vm, scope) => {
 					vm.$emit('delete', { type: 'delete', ...scope });

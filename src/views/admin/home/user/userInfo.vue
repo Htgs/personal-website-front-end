@@ -1,99 +1,132 @@
 <template>
 	<div>
-		<!-- <Form
+		<Form
 			ref="userForm"
 			:FormSetting="{'label-width': '100px'}"
 			:FormData="userForm"
+			route="user"
 			v-on:submitForm="submitForm('userForm')"
-		/> -->
+		/>
+		<div class="txt-c">
+			<el-button type="primary" @click="submit('userForm')">修改</el-button>
+		</div>
 	</div>
 </template>
 
 <script>
-// import Form from '@/components/common/Form.vue';
-// import FormElUpload from '@/components/common/FormElUpload.vue';
-// import {FormElUpload as avatarSerialize} from '@/utils/customSerializeFn.js';
-// import {FormElUpload as avatarEdit} from '@/utils/customEditFn.js';
+import {mapState} from 'vuex';
+import {ajax} from '@/utils/ajax.js';
+import {setFormField, urlPrefix} from '@/utils/utils.js';
+import Form from '@/components/common/Form.vue';
+import FormElUpload from '@/components/common/FormElUpload.vue';
+import customSerializeFn from '@/utils/customSerializeFn.js';
+import customEditFn from '@/utils/customEditFn.js';
 export default {
 	name: 'userInfo',
-	// components: {
-	// 	Form,
-	// },
-	// data() {
-	// 	return {
-	// 		userForm: {
-	// 			formField: [
-	// 				{
-	// 					component: 'ElInput',
-	// 					label: '昵称',
-	// 					field: 'niname',
-	// 					required: false,
-	// 					value: null,
-	// 				},
-	// 				{
-	// 					component: FormElUpload,
-	// 					field: 'avatar',
-	// 					label: '头像',
-	// 					required: false,
-	// 					value: [],
-	// 					customSerializeFn: avatarSerialize,
-	// 					customEditFn: avatarEdit,
-	// 				},
-	// 				{
-	// 					component: 'ElInput',
-	// 					label: '真实姓名',
-	// 					field: 'realname',
-	// 					required: false,
-	// 					value: null,
-	// 				},
-	// 				{
-	// 					component: 'ElInput',
-	// 					label: '性别',
-	// 					field: 'gender',
-	// 					value: null,
-	// 				},
-	// 				{
-	// 					component: 'ElInput',
-	// 					label: '出生日期',
-	// 					field: 'birth_date',
-	// 					required: false,
-	// 					value: null,
-	// 				},
-	// 				{
-	// 					component: 'ElInput',
-	// 					label: '手机电话',
-	// 					field: 'phone',
-	// 					required: false,
-	// 					value: null,
-	// 				},
-	// 			]
-	// 		},
-	// 	};
-	// },
-	// methods: {
-	// 	submitForm(formName) {
-	// 		this.$refs[formName].validate()
-	// 			.then(({FormData, params}) => {
-	// 				let data = {
-	// 					password: params['password'],
-	// 					week: params['week'],
-	// 				};
-	// 				if (pattern['isEmail'](params['account'])) {
-	// 					data['email'] = params['account'];
-	// 				} else if (pattern['isPhone'](params['account'])) {
-	// 					data['phone'] = params['account'];
-	// 				} else {
-	// 					data['name'] = params['account'];
-	// 				}
-	// 				ajax('post', `/admin/login`, data)
-	// 					.then(res => {
-	// 						console.log(res.data);
-	// 						this.$store.commit('SET_USERINFO', res.data);
-	// 						this.$router.push('/admin');
-	// 					});
-	// 			})
-	// 			.catch(_ => {});
-	// 	},
-	// }
+	components: {
+		Form,
+	},
+	computed: {
+		...mapState(['userinfo']),
+	},
+	data() {
+		return {
+			userForm: {
+				formField: [
+					{
+						component: 'ElInput',
+						label: '昵称',
+						field: 'niname',
+						required: false,
+						value: null,
+					},
+					{
+						component: FormElUpload,
+						field: 'avatar',
+						label: '头像',
+						required: false,
+						value: [],
+						customSerializeFn: customSerializeFn.FormElUpload,
+						customEditFn: customEditFn.FormElUpload,
+					},
+					{
+						component: 'ElInput',
+						label: '真实姓名',
+						field: 'realname',
+						required: false,
+						value: null,
+					},
+					{
+						component: 'ElRadio',
+						field: 'gender',
+						label: '性别',
+						radioList: [
+							{
+								name: '保密',
+								id: '0'
+							},
+							{
+								name: '男',
+								id: '1'
+							},
+							{
+								name: '女',
+								id: '2'
+							},
+						],
+						value: '0',
+					},
+					{
+						component: 'ElDate',
+						field: 'birth_date',
+						label: '出生日期',
+						required: false,
+						pickerOptions: {
+							disabledDate(time) {
+								return time.getTime() > Date.now();
+							},
+						},
+						value: null,
+					},
+					{
+						component: 'ElInput',
+						field: 'phone',
+						label: '手机号码',
+						rules: [
+							{
+								method: 'patternValid',
+								params: {
+									pattern: 'phone',
+								},
+							},
+							{
+								method: 'checkValid',
+								trigger: 'blur',
+								params: {
+									cfield: 'phone',
+								}
+							},
+						],
+						value: null,
+					},
+				]
+			},
+		};
+	},
+	mounted() {
+		this.userForm.formField = setFormField(this.userForm.formField, this.userinfo);
+	},
+	methods: {
+		submit(formName) {
+			this.$refs[formName].validate()
+				.then(({FormData, params}) => {
+					ajax('post', urlPrefix('/admin/user/user-info'), params)
+						.then(data => {
+							this.$store.commit('SET_USERINFO', data);
+						});
+				})
+				.catch(_ => {});
+		},
+	}
 };
 </script>

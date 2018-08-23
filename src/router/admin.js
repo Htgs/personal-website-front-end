@@ -16,14 +16,9 @@ module.exports = [
 	{
 		path: '/admin',
 		name: 'AdminIndex',
-		redirect: '/admin/home',
+		redirect: '/admin/user',
 		component: Index,
 		children: [
-			{
-				path: '/admin/home',
-				name: 'AdminHome',
-				component: Home
-			},
 			{
 				path: '/admin/:model',
 				name: 'Model',
