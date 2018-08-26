@@ -68,13 +68,13 @@ const mutations = {
 		});
 		if (user.token) {
 			// 如果有user.token则保存新的用户token
-			localStorage.setItem('b-token', `Bearer ${user.token}`);
+			sessionStorage.setItem('b-token', `Bearer ${user.token}`);
 		}
 	},
 	[mt.CLEAR_USERINFO](state) {
 		state.userinfo = {};
-		if (localStorage.getItem('b-token')) {
-			localStorage.removeItem('b-token');
+		if (sessionStorage.getItem('b-token')) {
+			sessionStorage.removeItem('b-token');
 		}
 	},
 	[mt.SET_CACHE_DATA](state, {cache, data}) {

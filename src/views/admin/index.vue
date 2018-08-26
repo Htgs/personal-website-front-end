@@ -2,7 +2,10 @@
 	<el-container class="h100">
 		<el-header style="border: 1px solid #e6e6e6;">
 			<h1 class="pull-left h100 fz-18 title">个人网站后台管理</h1>
-			<el-button type="text" class="pull-right mt-10" sytle="color: #fff;" @click="logout">退出</el-button>
+			<div class="pull-right mt-10">
+				<span>您好，{{userinfo.niname}}</span>
+				<el-button type="text" @click="logout">退出</el-button>
+			</div>
 		</el-header>
 		<el-container>
 			<el-aside width="201px">

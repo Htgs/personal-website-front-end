@@ -32,6 +32,7 @@ export default {
 	data() {
 		return {
 			userForm: {
+				id: null,
 				formField: [
 					{
 						component: 'ElInput',
@@ -114,14 +115,16 @@ export default {
 		};
 	},
 	mounted() {
+		console.log(this.userinfo);
+		this.userForm.id = this.userinfo.id;
 		this.userForm.formField = setFormField(this.userForm.formField, this.userinfo);
 	},
 	methods: {
 		submit(formName) {
 			this.$refs[formName].validate()
 				.then(({FormData, params}) => {
-					ajax('post', urlPrefix('/admin/user/user-info'), params)
-						.then(data => {
+					ajax('post', urlPrefix('/admin/user/user-info'), params, params._hasfile)
+						.then(({data}) => {
 							this.$store.commit('SET_USERINFO', data);
 						});
 				})

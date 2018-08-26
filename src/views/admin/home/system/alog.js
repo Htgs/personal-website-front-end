@@ -43,8 +43,8 @@ const alog = {
 					field: 'content',
 				},
 				{
-					label: 'ip',
-					field: 'ip地址',
+					label: 'ip地址',
+					field: 'ip',
 				},
 				{
 					label: '创建时间',
