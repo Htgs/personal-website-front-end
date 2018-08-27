@@ -70,6 +70,9 @@ const mutations = {
 			// 如果有user.token则保存新的用户token
 			sessionStorage.setItem('b-token', `Bearer ${user.token}`);
 		}
+		if (user.sign) {
+			sessionStorage.setItem('b-sign', user.sign);
+		}
 	},
 	[mt.CLEAR_USERINFO](state) {
 		state.userinfo = {};

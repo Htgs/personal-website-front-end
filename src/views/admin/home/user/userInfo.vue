@@ -125,6 +125,10 @@ export default {
 				.then(({FormData, params}) => {
 					ajax('post', urlPrefix('/admin/user/user-info'), params, params._hasfile)
 						.then(({data}) => {
+							this.$message({
+								message: '保存成功',
+								type: 'success',
+							})
 							this.$store.commit('SET_USERINFO', data);
 						});
 				})

@@ -88,7 +88,7 @@ Object.keys(ElementComponents).forEach(elComponent => {
 // Add a request interceptor
 axios.interceptors.request.use(function(config) {
 	if (sessionStorage.getItem('b-token')) {
-		config.headers = Object.assign(config.headers, {'Authorization': sessionStorage.getItem('b-token')});
+		config.headers = Object.assign(config.headers, {'Authorization': sessionStorage.getItem('b-token'), 'sign': sessionStorage.getItem('b-sign')});
 	}
 	// Do something before request is sent
 	return config;
