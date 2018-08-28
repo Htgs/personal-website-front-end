@@ -37,5 +37,6 @@ module.exports = {
     'no-useless-escape': 0,
     'prefer-promise-reject-errors': 0,
     'no-unneeded-ternary': 0,
+    'camelcase': 0,
   }
 }

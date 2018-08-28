@@ -43,12 +43,12 @@ const article = {
 	hasTitleBack: false,
 	hasTabs: false,
 	hasConditionSearch: true,
-	hasConditionAdd: true,
+	hasConditionAdd: false,
 	hasConditionRefresh: true,
 	hasTableSelection: false,
 	hasTableIndex: true,
 	hasTableOperation: true,
-	hasTableOperationEdit: true,
+	hasTableOperationEdit: false,
 	hasTableOperationDelete: true,
 	hasTableOperationRecovery: true,
 	hasPaginationBatchDestroy: false,
@@ -57,6 +57,18 @@ const article = {
 	// 每个标签页的数据
 	panelData: {
 		'article': {
+			commonOperationComponents: [
+				{
+					component: ElButton,
+					props: {
+						type: 'text',
+						display_name: '新增',
+						clickFn: (vm, scope) => {
+							vm.$router.push('/admin/article/detail');
+						},
+					},
+				},
+			],
 			// 表格列
 			commonTableField: [
 				{
@@ -125,6 +137,9 @@ const article = {
 						type: 'text',
 						display_name: '详情',
 						clickFn: (vm, scope) => {
+							console.log(vm);
+							console.log(scope);
+							// vm.$router.push('/admin/article/detail');
 							// 显示相关评论
 							// vm.$emit('customEv', { type: 'power', ...scope });
 							// vm.$router.push({
@@ -142,73 +157,73 @@ const article = {
 				className: '',
 				layout: 'total, prev, pager, next, jumper',
 			},
-			// 默认表单域
-			commonFormFieldsFn(type) {
-				return [
-					{
-						component: FormAjaxElSelect,
-						field: 'category_id',
-						label: '文章分类',
-						value: undefined,
-						getDataFn(vm) {
-							return new Promise((resolve) => {
-								vm.$store.dispatch('getStaticData', {
-									cache: 'ARTICLE_CATEGORY',
-									url: urlPrefix(`/admin/article-category/all`),
-								})
-									.then(data => {
-										resolve(getAllChildren(data));
-									});
-							});
-						},
-					},
-					{
-						component: 'ElInput',
-						field: 'title',
-						label: '文章标题',
-						rules: [
-							{
-								method: 'lengthValid',
-								params: {
-									length: [5, 50],
-								},
-							},
-						],
-						value: null,
-					},
-					{
-						component: 'ElInput',
-						inputType: 'textarea',
-						field: 'content',
-						label: '内容',
-						rules: [
-							{
-								method: 'lengthValid',
-								params: {
-									length: [5, 50],
-								},
-							},
-						],
-						value: null,
-					},
-					{
-						component: 'ElRadio',
-						field: 'is_public',
-						label: '是否公开',
-						radioList: [
-							{
-								id: '0',
-								name: '不公开',
-							},
-							{
-								id: '1',
-								name: '公开',
-							},
-						],
-						value: '1',
-					},
-				];
-			},
+			// // 默认表单域
+			// commonFormFieldsFn(type) {
+			// 	return [
+			// 		{
+			// 			component: FormAjaxElSelect,
+			// 			field: 'category_id',
+			// 			label: '文章分类',
+			// 			value: undefined,
+			// 			getDataFn(vm) {
+			// 				return new Promise((resolve) => {
+			// 					vm.$store.dispatch('getStaticData', {
+			// 						cache: 'ARTICLE_CATEGORY',
+			// 						url: urlPrefix(`/admin/article-category/all`),
+			// 					})
+			// 						.then(data => {
+			// 							resolve(getAllChildren(data));
+			// 						});
+			// 				});
+			// 			},
+			// 		},
+			// 		{
+			// 			component: 'ElInput',
+			// 			field: 'title',
+			// 			label: '文章标题',
+			// 			rules: [
+			// 				{
+			// 					method: 'lengthValid',
+			// 					params: {
+			// 						length: [5, 50],
+			// 					},
+			// 				},
+			// 			],
+			// 			value: null,
+			// 		},
+			// 		{
+			// 			component: 'ElInput',
+			// 			inputType: 'textarea',
+			// 			field: 'content',
+			// 			label: '内容',
+			// 			rules: [
+			// 				{
+			// 					method: 'lengthValid',
+			// 					params: {
+			// 						length: [5, 50],
+			// 					},
+			// 				},
+			// 			],
+			// 			value: null,
+			// 		},
+			// 		{
+			// 			component: 'ElRadio',
+			// 			field: 'is_public',
+			// 			label: '是否公开',
+			// 			radioList: [
+			// 				{
+			// 					id: '0',
+			// 					name: '不公开',
+			// 				},
+			// 				{
+			// 					id: '1',
+			// 					name: '公开',
+			// 				},
+			// 			],
+			// 			value: '1',
+			// 		},
+			// 	];
+			// },
 		},
 	},
 };

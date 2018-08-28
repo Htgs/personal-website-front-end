@@ -115,6 +115,7 @@
 				v-on:handleTableSelection="handleTableSelection"
 				v-on:tableEdit="tableEdit"
 				v-on:tableDelete="tableDelete"
+				v-on:tableRecovery="tableRecovery"
 				v-on:emitOperationBtn="emitOperationBtn"
 			/>
 		</div>
@@ -386,26 +387,6 @@ export default {
 			// 表格
 			tableLoading: true,
 			tableData: [],
-			tableEditSetting: {
-				type: 'text',
-				loading: false,
-				disabled: false,
-				className: '',
-				display_name: '编辑',
-				clickFn: (vm, scope) => {
-					vm.$emit('edit', { type: 'edit', ...scope });
-				}
-			},
-			tableDeleteSetting: {
-				type: 'text',
-				loading: false,
-				disabled: false,
-				className: '',
-				display_name: '删除',
-				clickFn: (vm, scope) => {
-					vm.$emit('delete', { type: 'delete', ...scope });
-				}
-			},
 			tableSelection: [],
 
 			paginationBatchDestroySetting: {
@@ -563,6 +544,10 @@ export default {
 			// }
 			this.deleteData = scope.row;
 			this.deleteVisible = true;
+		},
+		// 表格恢复
+		tableRecovery(scope) {
+			console.log('表格恢复', scope);
 		},
 		// 批量删除
 		batchDestroy(scope) {

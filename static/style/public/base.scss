@@ -25,12 +25,6 @@ input[type=text] {
 .h100 {
 	height: 100%;
 }
-.hauto {
-	height: auto!important;
-}
-.mhauto {
-	min-height: auto!important;
-}
 
 .pull-left {
 	float: left;
@@ -77,10 +71,6 @@ input[type=text] {
 	position: relative;
 }
 
-.white {
-	color: #fff;
-}
-
 $dirs: bottom, left, top, right;
 @each $dir in $dirs {
 	@include angle($dir, 10px, #fff)
@@ -115,7 +105,16 @@ $dirs: bottom, left, top, right;
 	不换行省略
  */
 .ellipsis {
-	@extend %wrap;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.multi-ellipsis {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;  //这里是在第二行有省略号
+	overflow: hidden;
 }
 
 .block-center {
@@ -132,4 +131,9 @@ $dirs: bottom, left, top, right;
 	-ms-user-select:none;/*IE10*/
 	-khtml-user-select:none;/*早期浏览器*/
 	user-select:none;
+}
+
+.home-view {
+	width: 1140px;
+	@extend %marginLR;
 }

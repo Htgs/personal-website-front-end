@@ -128,7 +128,7 @@ export default {
 							this.$message({
 								message: '保存成功',
 								type: 'success',
-							})
+							});
 							this.$store.commit('SET_USERINFO', data);
 						});
 				})

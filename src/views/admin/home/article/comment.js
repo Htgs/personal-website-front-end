@@ -16,25 +16,11 @@ const comment = {
 	hasTableIndex: true,
 	hasTableOperation: false,
 	hasTableOperationEdit: false,
-	hasTableOperationDelete: false,
+	hasTableOperationDelete: true,
 	hasTableOperationRecovery: true,
 	hasPaginationBatchDestroy: false,
 	// 标题*
 	commonTitle: '评论管理',
-	commonTabs: {
-		// type: 'card',
-		lists: [
-			{
-				display_name: '测试赛',
-				name: 'tes',
-				disabled: false,
-			},
-			{
-				display_name: 'ddd',
-				name: 'ddd',
-			},
-		]
-	},
 	// 每个标签页的数据
 	panelData: {
 		'comment': {
@@ -124,25 +110,6 @@ const comment = {
 					label: '删除时间',
 					field: 'deleted_at',
 					component: TableTime,
-				},
-			],
-			commonTableOperationComponents: [
-				{
-					component: ElButton,
-					props: {
-						type: 'text',
-						display_name: '屏蔽',
-						clickFn: (vm, scope) => {
-							// 显示相关评论
-							// vm.$emit('customEv', { type: 'power', ...scope });
-							// vm.$router.push({
-							// 	name: 'Model',
-							// 	params: {
-							// 		model: `article/${scope.row.id}/comment`,
-							// 	},
-							// });
-						},
-					},
 				},
 			],
 			// 分页设定

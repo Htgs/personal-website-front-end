@@ -122,14 +122,6 @@ const articleCategory = {
 						],
 						value: null,
 					},
-					{
-						component: 'ElInput',
-						inputType: 'textarea',
-						field: 'memo',
-						label: '备注',
-						required: false,
-						value: null,
-					},
 				];
 			},
 		},

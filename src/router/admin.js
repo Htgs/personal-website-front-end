@@ -6,6 +6,7 @@ import NotFound from '@/views/admin/notfound';
 
 import Home from '@/views/admin/home/index.vue';
 import Model from '@/views/admin/home/model.vue';
+import ArticleDetail from '@/views/admin/home/article/articleDetail.vue';
 
 module.exports = [
 	{
@@ -20,17 +21,17 @@ module.exports = [
 		component: Index,
 		children: [
 			{
+				path: '/admin/article/detail',
+				name: 'ArticleDetail',
+				component: ArticleDetail
+			},
+			{
 				path: '/admin/:model',
 				name: 'Model',
 				component: Model
 			},
 			{
-				path: '/admin/:model/:id',
-				name: 'ModelDetail',
-				component: Model
-			},
-			{
-				path: '/admin/404',
+				path: '/admin/*',
 				name: 'AdminNotFound',
 				component: NotFound
 			},

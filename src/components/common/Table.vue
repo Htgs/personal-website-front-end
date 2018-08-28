@@ -129,7 +129,7 @@ export default {
 				type: 'text',
 				loading: false,
 				disabled: false,
-				className: '',
+				className: 'p-0',
 				display_name: '恢复',
 				clickFn: (vm, scope) => {
 					vm.$emit('recovery', { type: 'recovery', ...scope });
@@ -158,7 +158,6 @@ export default {
 			this.$emit('tableDelete', msg);
 		},
 		tableRecovery(msg) {
-			console.log('tableRecovery', msg);
 			this.$emit('tableRecovery', msg);
 		},
 		emitOperationBtn(msg) {
