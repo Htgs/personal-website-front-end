@@ -6,7 +6,6 @@ import NotFound from '@/views/admin/notfound';
 
 import Home from '@/views/admin/home/index.vue';
 import Model from '@/views/admin/home/model.vue';
-import ArticleDetail from '@/views/admin/home/article/articleDetail.vue';
 
 module.exports = [
 	{
@@ -20,11 +19,6 @@ module.exports = [
 		redirect: '/admin/user',
 		component: Index,
 		children: [
-			{
-				path: '/admin/article/detail',
-				name: 'ArticleDetail',
-				component: ArticleDetail
-			},
 			{
 				path: '/admin/:model',
 				name: 'Model',
