@@ -3,7 +3,6 @@ import userInfo from './user/userInfo.js';
 import article from './article/article.js';
 import articleCategory from './article/articleCategory.js';
 import comment from './article/comment.js';
-import resume from './resume/resume.js';
 import alog from './system/alog.js';
 
 module.exports = {
@@ -12,6 +11,5 @@ module.exports = {
 	article: article,
 	'article-category': articleCategory,
 	comment: comment,
-	resume: resume,
 	alog: alog,
 };
