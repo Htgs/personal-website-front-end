@@ -75,11 +75,11 @@ export default {
 					}
 					vm.defaultOpeneds = defaultOpeneds;
 					vm.menus = menus;
-					console.log(menus);
+					// console.log(menus);
 				});
 			})
 			.catch(err => {
-				console.dir(err);
+				// console.dir(err);
 				if (err.response.status === 401) {
 					// this.$router.push('/admin/login');
 					next('/admin/login');

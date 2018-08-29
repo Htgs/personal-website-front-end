@@ -24,21 +24,22 @@ export default {
 		};
 	},
 	beforeRouteEnter(to, from, next) {
-		console.log(theModel);
+		// console.log(theModel);
 		next(vm => {
 			vm.initCurrentModel(to);
 		});
 	},
 	methods: {
 		initCurrentModel($route) {
-			if (theModel[$route.params.model] && theModel[$route.params.model]._hasCustomComponent) {
+			const {model} = $route.params;
+			if (theModel[model] && theModel[model]._hasCustomComponent) {
 				this.hasCustomComponent = true;
-				this.currentModel = theModel[$route.params.model];
+				this.currentModel = theModel[model];
 			} else {
 				this.hasCustomComponent = false;
 				this.set($route);
 			}
-			console.log(this.currentModel);
+			// console.log(this.currentModel);
 		},
 		/**
 		 * [mixCurrentModel 把panelData中的当前数据是混合到当前模块数据中]
@@ -57,29 +58,30 @@ export default {
 		 * @param    {Object}   routeObj [当前的路由对象]
 		 */
 		set(routeObj) {
-			console.log(routeObj);
+			const {id, model} = routeObj.params,
+				{current} = routeObj.query;
+			// console.log(routeObj);
 			// 不是详情页：
 			// 存在current和没有current的情况
 			// 详情页
 			// 存在current和没有current的情况
-			if (routeObj.params.id) {
-				if (!routeObj.query.current) {
-					console.error(`${routeObj.params.model}中的detailLink组件缺少了current参数`);
+			if (id) {
+				if (!current) {
+					console.error(`${model}中的detailLink组件缺少了current参数`);
 				}
-				this.routePath = `/admin/${routeObj.params.model}/${routeObj.params.id}/${routeObj.query.current}`;
-				this.mixCurrentModel(`${routeObj.params.model}Detail`, routeObj.query.current);
+				this.routePath = `/admin/${model}/${id}/${current}`;
+				this.mixCurrentModel(`${model}Detail`, current);
 			} else {
-				if (routeObj.query.current) {
-					this.routePath = `/admin/${routeObj.query.current}`;
-					this.mixCurrentModel(routeObj.params.model, routeObj.query.current);
+				if (current) {
+					this.routePath = `/admin/${current}`;
+					this.mixCurrentModel(model, current);
 				} else {
-					if (theModel[routeObj.params.model].hasTabs) {
-						this.routePath = `/admin/${theModel[routeObj.params.model].commonTabs.lists[0].name}`;
-						this.mixCurrentModel(routeObj.params.model, this.routePath);
+					if (theModel[model].hasTabs) {
+						this.routePath = `/admin/${theModel[model].commonTabs.lists[0].name}`;
+						this.mixCurrentModel(model, this.routePath);
 					} else {
-						this.routePath = `/admin/${routeObj.params.model}`;
-						console.log(this.routePath);
-						this.mixCurrentModel(routeObj.params.model, routeObj.params.model);
+						this.routePath = `/admin/${model}`;
+						this.mixCurrentModel(model, model);
 					}
 				}
 			}

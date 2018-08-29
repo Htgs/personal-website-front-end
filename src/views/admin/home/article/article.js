@@ -50,7 +50,7 @@ const article = {
 	hasTableSelection: false,
 	hasTableIndex: true,
 	hasTableOperation: true,
-	hasTableOperationEdit: false,
+	hasTableOperationEdit: true,
 	hasTableOperationDelete: true,
 	hasTableOperationRecovery: true,
 	hasPaginationBatchDestroy: false,
@@ -132,18 +132,18 @@ const article = {
 					component: TableTime,
 				},
 			],
-			commonTableOperationComponents: [
-				{
-					component: ElButton,
-					props: {
-						type: 'text',
-						display_name: '详情',
-						clickFn: (vm, scope) => {
-							vm.$router.push(`/admin/article/detail?id=${scope.row.id}`);
-						},
-					},
-				},
-			],
+			// commonTableOperationComponents: [
+			// 	{
+			// 		component: ElButton,
+			// 		props: {
+			// 			type: 'text',
+			// 			display_name: '详情',
+			// 			clickFn: (vm, scope) => {
+			// 				vm.$router.push(`/admin/article/detail?id=${scope.row.id}`);
+			// 			},
+			// 		},
+			// 	},
+			// ],
 			// 分页设定
 			commonPaginationSetting: {
 				className: '',
@@ -177,17 +177,18 @@ const article = {
 							{
 								method: 'lengthValid',
 								params: {
-									length: [5, 50],
+									length: [2, 50],
 								},
 							},
 						],
 						value: null,
 					},
 					{
+						type,
 						component: FormMDEditor,
 						field: 'content',
 						label: '内容',
-						value: null,
+						value: '',
 					},
 					{
 						component: 'ElRadio',
