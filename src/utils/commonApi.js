@@ -82,4 +82,14 @@ module.exports = {
 				});
 		});
 	},
+
+	// 恢复数据
+	recovery(route, id) {
+		return new Promise(resolve => {
+			ajax('put', urlPrefix(`${route}/${id}/recovery`))
+				.then(res => {
+					resolve(res.data);
+				});
+		});
+	},
 };

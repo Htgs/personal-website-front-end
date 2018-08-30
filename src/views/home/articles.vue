@@ -34,7 +34,7 @@
 							<h4>{{article.title}}</h4>
 							<p style="color: #6f6f6f;" class="fz-12 mt-10">文章类型：{{article['articles_category.name']}} 发表时间：{{transformTime(article.created_at)}}</p>
 						</div>
-						<div class="w100 multi-ellipsis" style="height: 100px; line-height: 2;">{{article.content}}</div>
+						<div class="w100 multi-ellipsis" style="height: 100px; line-height: 2;" v-html="article.render_content" />
 						<el-button class="pull-right" type="text" @click="detail(article.id)">阅读全文</el-button>
 					</el-card>
 				</el-scrollbar>
@@ -51,6 +51,7 @@
 	</div>
 </template>
 <script>
+import { mavonEditor } from 'mavon-editor';
 import {ajax} from '../../utils/ajax.js';
 import {transformTime} from '../../utils/utils.js';
 export default {
@@ -75,15 +76,23 @@ export default {
 	},
 	methods: {
 		transformTime,
+		renderContent(data) {
+			return data.map(item => {
+				mavonEditor.mixins[0].methods.$render(item.content, (render) => {
+					item.render_content = render;
+				});
+				return item;
+			});
+		},
 		getArticles(params = {}) {
 			this.articles = [];
 			this.loading = true;
 			ajax('get', '/home/article', params)
 				.then(({data}) => {
 					this.loading = false;
-					this.articles = data.data;
 					this.page = data.page;
 					this.total = data.total;
+					this.articles = this.renderContent(data.data);
 				});
 		},
 		getCategories() {
@@ -95,7 +104,6 @@ export default {
 							t['children'] = data.filter(d => d.pid === t.id);
 						}
 					});
-					console.log(temp);
 					this.categories = temp;
 				});
 		},

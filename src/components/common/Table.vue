@@ -6,18 +6,18 @@
 		@selection-change="handleTableSelection"
 		style="width: 100%">
 		<el-table-column
-			v-if="hasTableSelection"
-			align="center"
-			:resizable="false"
-			type="selection">
-		</el-table-column>
-		<el-table-column
 			v-if="hasTableIndex"
 			align="center"
 			:resizable="false"
 			type="index"
 			label="序号"
 			width="70">
+		</el-table-column>
+		<el-table-column
+			v-if="hasTableSelection"
+			align="center"
+			:resizable="false"
+			type="selection">
 		</el-table-column>
 		<el-table-column
 			v-for="(tf, ky) in commonTableField"

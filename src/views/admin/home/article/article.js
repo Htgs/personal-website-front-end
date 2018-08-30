@@ -47,13 +47,13 @@ const article = {
 	hasConditionSearch: true,
 	hasConditionAdd: true,
 	hasConditionRefresh: true,
-	hasTableSelection: false,
+	hasTableSelection: true,
 	hasTableIndex: true,
 	hasTableOperation: true,
 	hasTableOperationEdit: true,
 	hasTableOperationDelete: true,
 	hasTableOperationRecovery: true,
-	hasPaginationBatchDestroy: false,
+	hasPaginationBatchDestroy: true,
 	// 标题*
 	commonTitle: '文章管理',
 	// 每个标签页的数据

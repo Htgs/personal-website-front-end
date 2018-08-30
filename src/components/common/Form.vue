@@ -13,6 +13,7 @@
 				:placeholder="item.placeholder ? item.placeholder : '请输入内容'"
 				:type="item.inputType ? item.inputType : 'text'"
 				:disabled="item.disabled ? item.disabled : false"
+				:autosize="item.autosize ? item.autosize : false"
 				v-model="item.value"
 				@keyup.enter.native="submitForm()"
 			/>

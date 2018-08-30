@@ -194,7 +194,7 @@
 <script>
 // serializeData 为ajax提交数据之前序列化方法
 import { isString, isObject, isFunction, serializeData, setFormField } from '../../utils/utils.js';
-import { index, show, store, edit, update, destroy, batchDestroy, status } from '../../utils/commonApi.js';
+import { index, show, store, edit, update, destroy, batchDestroy, recovery } from '../../utils/commonApi.js';
 
 // import ajax from '../../utils/commonApi.js'
 
@@ -390,7 +390,7 @@ export default {
 			tableSelection: [],
 
 			paginationBatchDestroySetting: {
-				type: 'primary',
+				type: 'text',
 				loading: false,
 				disabled: false,
 				className: '',
@@ -538,16 +538,22 @@ export default {
 		},
 		// 表格删除
 		tableDelete(scope) {
-			// if (this.model.commontableDeleteLimit && scope.row[this.model.commontableDeleteLimit.field] === this.model.commontableDeleteLimit.value) {
-			// 	this.$message.warning(this.model.commontableDeleteLimit.content)
-			// 	return
-			// }
 			this.deleteData = scope.row;
 			this.deleteVisible = true;
 		},
 		// 表格恢复
 		tableRecovery(scope) {
-			console.log('表格恢复', scope);
+			recovery(this.route, scope.row.id)
+				.then(data => {
+					if (data === true) {
+						this.$message.success('恢复成功');
+						this.ajaxIndex();
+						// 更新缓存
+						this.model.vuxcache && this.model.vuxcache(this);
+					} else {
+						this.$message.error('恢复失败');
+					}
+				});
 		},
 		// 批量删除
 		batchDestroy(scope) {
@@ -629,16 +635,6 @@ export default {
 		updateTableData(data) {
 			this.edit_option_tableData(data);
 		},
-		// // condition范围选择处理方法
-		// rangeDate (dates) {
-		// 	dates.forEach(date => {
-		// 		this.filter[date.field] = date.val
-		// 	})
-		// 	ajax.index(this, this.filter)
-		// },
-		// keypairDialog (row) {
-		// 	this.$emit('keypairDialog', row)
-		// },
 
 		// 数据处理方法
 		set_tableData(data) {
@@ -650,16 +646,6 @@ export default {
 				}
 			}
 		},
-		// reset_tableData () {
-		// 	this.tableData = []
-		// },
-		// add_option_tableData (data) {
-		// 	data = this.model.tableFieldFn ? this.model.tableFieldFn(data) : data
-		// 	if (this.tableData.length >= 15) {
-		// 		this.tableData.pop()
-		// 	}
-		// 	this.tableData.unshift(data)
-		// },
 		edit_option_tableData(data) {
 			data = this.model.tableFieldFn ? this.model.tableFieldFn(data) : data;
 			this.tableData.forEach(v => {
@@ -667,22 +653,6 @@ export default {
 					for (let i in v) {
 						v[i] = data[i];
 					}
-				}
-			});
-		},
-		// delete_option_tableData (data) {
-		// 	let arr = []
-		// 	this.tableData.forEach(v => {
-		// 		if (v.id !== data.id) {
-		// 			arr.push(v)
-		// 		}
-		// 	})
-		// 	this.tableData = arr
-		// },
-		swtich_option_tableData({data, id}) {
-			this.tableData.forEach(v => {
-				if (v.id === id) {
-					v.status = data.res;
 				}
 			});
 		},

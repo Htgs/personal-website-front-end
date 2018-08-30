@@ -32,6 +32,7 @@
 	</div>
 </template>
 <script>
+// https://github.com/hinesboy/mavonEditor
 import { mavonEditor } from 'mavon-editor';
 import 'mavon-editor/dist/css/index.css';
 import {ajax} from '@/utils/ajax.js';
