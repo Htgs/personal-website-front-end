@@ -116,7 +116,7 @@ export default {
 	Row,
 	Col,
 	Upload,
-	// Progress,
+	Progress,
 	// Badge,
 	Card,
 	// Rate,
