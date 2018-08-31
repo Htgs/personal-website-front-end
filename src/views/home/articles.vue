@@ -87,8 +87,22 @@ export default {
 		getArticles(params = {}) {
 			this.articles = [];
 			this.loading = true;
+			if (Object.keys(params).length === 0) {
+				this.filter = {
+					...this.$route.query,
+				};
+				params = {
+					...this.$route.query,
+				};
+			}
 			ajax('get', '/home/article', params)
 				.then(({data}) => {
+					this.$router.replace({
+						name: 'articles',
+						query: {
+							...params,
+						},
+					});
 					this.loading = false;
 					this.page = data.page;
 					this.total = data.total;
