@@ -111,7 +111,7 @@ export default {
 	// Tag,
 	// Tree,
 	// Alert,
-	// Slider,
+	Slider,
 	// Icon,
 	Row,
 	Col,

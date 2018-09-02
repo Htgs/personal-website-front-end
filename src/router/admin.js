@@ -4,7 +4,7 @@ import Login from '@/views/admin/login';
 import Index from '@/views/admin/index';
 import NotFound from '@/views/admin/notfound';
 
-import Home from '@/views/admin/home/index.vue';
+import Person from '@/views/admin/home/user/person.vue';
 import Model from '@/views/admin/home/model.vue';
 
 module.exports = [
@@ -19,6 +19,11 @@ module.exports = [
 		redirect: '/admin/user',
 		component: Index,
 		children: [
+			{
+				path: '/admin/person',
+				name: 'Person',
+				component: Person
+			},
 			{
 				path: '/admin/:model',
 				name: 'Model',

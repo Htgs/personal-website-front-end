@@ -3,8 +3,16 @@
 		<el-header style="border: 1px solid #e6e6e6;">
 			<h1 class="pull-left h100 fz-18 title">个人网站后台管理</h1>
 			<div class="pull-right mt-10">
-				<span>您好，{{userinfo.niname}}</span>
-				<el-button type="text" @click="logout">退出</el-button>
+				<el-dropdown size="medium" @command="handleCommand">
+					<div class="el-dropdown-link">
+						您好，<el-button type="text">{{userinfo.niname}}</el-button>
+					</div>
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item command="personal" >个人介绍</el-dropdown-item>
+						<el-dropdown-item command="logout" divided>退出</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>
+				<!-- <el-button type="text" @click="logout">退出</el-button> -->
 			</div>
 		</el-header>
 		<el-container>
@@ -93,6 +101,12 @@ export default {
 		});
 	},
 	methods: {
+		handleCommand(command) {
+			this[command]();
+		},
+		personal() {
+			this.$router.push('/admin/person');
+		},
 		logout() {
 			ajax('get', '/admin/logout')
 				.then(res => {

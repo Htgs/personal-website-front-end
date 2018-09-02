@@ -115,7 +115,6 @@ export default {
 		};
 	},
 	mounted() {
-		console.log(this.userinfo);
 		this.userForm.id = this.userinfo.id;
 		this.userForm.formField = setFormField(this.userForm.formField, this.userinfo);
 	},

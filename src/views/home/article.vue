@@ -112,7 +112,7 @@ export default {
 						component: 'ElInput',
 						inputType: 'textarea',
 						field: 'content',
-						label: '评论内容',
+						label: '评论',
 						rules: [
 							{
 								method: 'lengthValid',

@@ -568,14 +568,14 @@ export default {
 					};
 					batchDestroy(this.route, params)
 						.then(data => {
-							if (data.res === 'true') {
+							if (data === true) {
 								this.$message.success('删除成功');
+								this.ajaxIndex();
+								// 更新缓存
+								this.model.vuxcache && this.model.vuxcache(this);
 							} else {
 								this.$message.error('删除失败');
 							}
-							this.ajaxIndex();
-							// 更新缓存
-							this.model.vuxcache && this.model.vuxcache(this);
 						});
 				})
 				.catch(_ => {});

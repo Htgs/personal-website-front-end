@@ -3,6 +3,7 @@
 import Index from '@/views/home/index';
 import Articles from '@/views/home/articles';
 import Article from '@/views/home/article';
+import Process from '@/views/home/process';
 import Me from '@/views/home/me';
 import NotFound from '@/views/home/NotFound';
 
@@ -23,6 +24,11 @@ module.exports = [
 				path: '/article/:id',
 				name: 'article',
 				component: Article,
+			},
+			{
+				path: '/process',
+				name: 'process',
+				component: Process,
 			},
 			{
 				path: '/about-me',

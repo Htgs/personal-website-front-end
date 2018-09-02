@@ -14,7 +14,7 @@ const comment = {
 	hasConditionRefresh: true,
 	hasTableSelection: false,
 	hasTableIndex: true,
-	hasTableOperation: false,
+	hasTableOperation: true,
 	hasTableOperationEdit: false,
 	hasTableOperationDelete: true,
 	hasTableOperationRecovery: true,
@@ -27,11 +27,11 @@ const comment = {
 			// 表格列
 			commonTableField: [
 				{
-					label: '上级评论',
+					label: '回复评论',
 					field: 'pid',
 					component: TableDetail,
 					props: {
-						model: 'Comment',
+						model: 'COMMENT',
 						// 缓存中获取的数据
 						// caches: [
 						// 	{

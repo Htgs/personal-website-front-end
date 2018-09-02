@@ -65,6 +65,7 @@ export default {
 			'IS_PUBLIC',
 			'USER',
 			'ARTICLE',
+			'COMMENT',
 		]),
 	},
 	data() {
@@ -76,6 +77,7 @@ export default {
 	methods: {
 		transformTime,
 		detail() {
+			console.log(this.params['model']);
 			show(`/admin/${this.params['model'].toLowerCase()}`, this.row.id)
 				.then(data => {
 					this.current = data;

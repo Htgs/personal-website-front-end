@@ -12,11 +12,11 @@
 							<span>{{cate.name}}</span>
 							<ul style="margin: 5px 0px 0px 20px;">
 								<li v-for="child in cate.children" :key="child.id">
-									<span :class="['category', `${filter.category_id === child.id ? 'cur' : ''}`]" @click="category(child.id)">{{child.name}}</span>
+									<span :class="['category', `${parseInt(filter.category_id) === child.id ? 'cur' : ''}`]" @click="category(child.id)">{{child.name}}</span>
 								</li>
 							</ul>
 						</div>
-						<span v-else :class="['category', `${filter.category_id === cate.id ? 'cur' : ''}`]" @click="category(cate.id)">{{cate.name}}</span>
+						<span v-else :class="['category', `${parseInt(filter.category_id) === cate.id ? 'cur' : ''}`]" @click="category(cate.id)">{{cate.name}}</span>
 					</li>
 				</ul>
 			</el-card>

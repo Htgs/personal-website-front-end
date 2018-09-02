@@ -32,4 +32,13 @@ module.exports = {
 		content: '内容',
 		is_public: '是否公开',
 	},
+	COMMENT: {
+		pid: '父级评论',
+		article_id: '文章id',
+		user_id: '用户id',
+		user_name: '评论者名称',
+		user_email: '评论者邮箱',
+		user_website: '评论者网站',
+		content: '评论内容',
+	},
 };

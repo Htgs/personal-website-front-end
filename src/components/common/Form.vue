@@ -1,5 +1,5 @@
 <template>
-	<el-form :label-width="FormLabelWidth" :model="FormData" ref="FormData">
+	<el-form :inline="FormInline" :label-width="FormLabelWidth" :model="FormData" ref="FormData">
 		<el-form-item
 			v-for="(item, ky) in FormData.formField"
 			:key="ky"
@@ -69,6 +69,11 @@
 				v-model="item.value">
 				{{item.placeholder}}
 			</el-checkbox>
+			<el-slider
+				style="width: 185px;"
+				v-else-if="item.component === 'ElSlider'"
+				v-model="item.value"
+			/>
 			<!-- item.cascade级联。表单中有相互影响时使用，传入的值包含了整个表单的作用域 -->
 			<component
 				v-else-if="item.cascade === true"
@@ -114,6 +119,14 @@ export default {
 				return '100px';
 			}
 		},
+		// 是否是行内表单
+		FormInline() {
+			if (this.FormSetting['inline']) {
+				return this.FormSetting['inline'];
+			} else {
+				return false;
+			}
+		}
 	},
 	methods: {
 		/**
