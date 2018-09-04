@@ -7,6 +7,7 @@ import TableDetail from '@/components/TableDetail.vue';
 import {urlPrefix} from '@/utils/utils.js';
 
 import FormMDEditor from './components/FormMDEditor.vue';
+import FormKeywords from './components/FormKeywords.vue';
 
 /**
  * getAllChildren 获取全部分类
@@ -109,6 +110,10 @@ const article = {
 					},
 				},
 				{
+					label: '关键词',
+					field: 'keywords',
+				},
+				{
 					label: '是否公开',
 					field: 'is_public',
 					component: TableCacheName,
@@ -181,6 +186,13 @@ const article = {
 								},
 							},
 						],
+						value: null,
+					},
+					{
+						type,
+						component: FormKeywords,
+						field: 'keywords',
+						label: '关键词',
 						value: null,
 					},
 					{
