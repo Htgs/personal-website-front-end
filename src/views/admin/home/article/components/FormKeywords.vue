@@ -9,6 +9,7 @@
 			{{tag}}
 		</el-tag>
 		<el-input
+			class="input-new-tag"
 			v-if="inputVisible"
 			v-model="inputValue"
 			ref="saveTagInput"
@@ -16,7 +17,7 @@
 			@keyup.enter.native="handleInputConfirm"
 			@blur="handleInputConfirm"
 		/>
-		<el-button v-else size="small" @click="showInput">增加标签</el-button>
+		<el-button v-else size="small" class="tag-item" @click="showInput">增加标签</el-button>
 	</div>
 </template>
 <script>
@@ -48,6 +49,7 @@ export default {
 			if (this.inputValue.length > 0) {
 				this.tags.push(this.inputValue);
 				this.formItemData.value = this.tags.join(',');
+				this.inputValue = '';
 				this.inputVisible = false;
 			} else {
 				this.$message.warning('请输入内容');
@@ -60,3 +62,18 @@ export default {
 	},
 };
 </script>
+<style lang="scss">
+	.el-tag + .el-tag {
+		margin-left: 10px;
+	}
+	.button-new-tag {
+		height: 32px;
+		line-height: 30px;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	.input-new-tag {
+		width: 90px;
+		vertical-align: bottom;
+	}
+</style>

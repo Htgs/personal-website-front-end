@@ -108,7 +108,7 @@ export default {
 	FormItem,
 	// Tabs,
 	// TabPane,
-	// Tag,
+	Tag,
 	// Tree,
 	// Alert,
 	Slider,
