@@ -3,7 +3,7 @@
 		<el-scrollbar ref="elscrollbar" :style="{'height': 'calc(100% + 17px)'}">
 			<div class="w100 mt-10" style="height: 60px; border-bottom: 1px solid rgb(230, 230, 230);">
 				<h4>{{article.title}}</h4>
-				<p style="color: #6f6f6f;" class="fz-12 mt-10">文章类型：{{article['articles_category.name']}} 发表时间：{{transformTime(article.created_at)}}</p>
+				<p style="color: #6f6f6f;" class="fz-12 mt-10">文章类型：{{article['articles_category.name']}} 标签：{{article['keywords']}} 发表时间：{{transformTime(article.created_at)}}</p>
 			</div>
 			<div class="mt-10 fz-14" style="line-height: 2;" v-html="article.render_content" />
 			<!-- 评论区 -->

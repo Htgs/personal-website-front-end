@@ -32,7 +32,7 @@
 					<el-card class="mb-10" v-for="article in articles" :key="article.title" shadow="hover">
 						<div slot="header" class="clearfix">
 							<h4>{{article.title}}</h4>
-							<p style="color: #6f6f6f;" class="fz-12 mt-10">文章类型：{{article['articles_category.name']}} 发表时间：{{transformTime(article.created_at)}}</p>
+							<p style="color: #6f6f6f;" class="fz-12 mt-10">文章类型：{{article['articles_category.name']}} 标签：{{article['keywords']}} 发表时间：{{transformTime(article.created_at)}}</p>
 						</div>
 						<div class="w100 multi-ellipsis" style="height: 100px; line-height: 2;" v-html="article.render_content" />
 						<el-button class="pull-right" type="text" @click="detail(article.id)">阅读全文</el-button>
@@ -110,6 +110,7 @@ export default {
 				});
 		},
 		getCategories() {
+			// /home/articles-categories/articles-count
 			ajax('get', '/home/articles-categories')
 				.then(({data}) => {
 					let temp = data.filter(d => d.pid === null);
