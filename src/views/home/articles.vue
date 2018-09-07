@@ -1,9 +1,10 @@
 <template>
 	<div class="h100 clearfix home-view">
 		<div class="pull-left" style="width: 200px; margin-right: 40px;">
-			<el-card shadow="never">
+			<!-- 分类start -->
+			<el-card shadow="never" v-loading="categories_loading" element-loading-text="加载中">
 				<ul>
-					<li class="mb-10" @click="category()"><span :class="['category', `${!filter.category_id ? 'cur' : ''}`]">全部</span></li>
+					<li class="mb-10" @click="category()"><span :class="['category', `${!filter.category_id ? 'cur' : ''}`]">全部 <i class="num">({{article_count}})</i></span></li>
 					<li
 						class="mb-10"
 						v-for="cate in categories"
@@ -12,14 +13,20 @@
 							<span>{{cate.name}}</span>
 							<ul style="margin: 5px 0px 0px 20px;">
 								<li v-for="child in cate.children" :key="child.id">
-									<span :class="['category', `${parseInt(filter.category_id) === child.id ? 'cur' : ''}`]" @click="category(child.id)">{{child.name}}</span>
+									<span :class="['category', `${filter.category_id === `${child.id}` ? 'cur' : ''}`]" @click="category(child.id)">{{child.name}} <i class="num">({{child.article_count}})</i></span>
 								</li>
 							</ul>
 						</div>
-						<span v-else :class="['category', `${parseInt(filter.category_id) === cate.id ? 'cur' : ''}`]" @click="category(cate.id)">{{cate.name}}</span>
+						<span v-else :class="['category', `${filter.category_id === `${cate.id}` ? 'cur' : ''}`]" @click="category(cate.id)">{{cate.name}} <i class="num">({{cate.article_count}})</i></span>
 					</li>
 				</ul>
 			</el-card>
+			<!-- 分类end -->
+			<!-- 词云start -->
+			<el-card class="mt-10" shadow="never" :body-style="{height: '250px', padding: 0}">
+				<TagCloud class="w100 h100" :tagsData="keywords" />
+			</el-card>
+			<!-- 词云end -->
 		</div>
 		<div class="pull-left h100"  style="width: 860px;">
 			<div class="relative ovh" style="height: calc(100% - 40px);" v-loading="loading" element-loading-text="加载中">
@@ -54,18 +61,32 @@
 import { mavonEditor } from 'mavon-editor';
 import {ajax} from '../../utils/ajax.js';
 import {transformTime} from '../../utils/utils.js';
+import TagCloud from '../../components/TagCloud/index.vue';
 export default {
 	name: 'Articles',
+	components: {
+		TagCloud,
+	},
 	data() {
 		return {
+			// 文章分类
+			categories_loading: true,
 			categories: [],
+			article_count: 0,
 
+			// 文章
 			loading: true,
 			articles: [],
 			page: 0,
 			total: 0,
 
-			filter: {},
+			// 词云
+			keywords: {},
+
+			// 过滤条件
+			filter: {
+				category_id: 0,
+			},
 		};
 	},
 	mounted() {
@@ -73,6 +94,8 @@ export default {
 		this.getCategories();
 		// 获取文章数据
 		this.getArticles();
+		// 获取文章的数量
+		this.getKeywords();
 	},
 	methods: {
 		transformTime,
@@ -109,17 +132,53 @@ export default {
 					this.articles = this.renderContent(data.data);
 				});
 		},
+		// 获取文章分类以及每个分类包含的文章数 获取全部文章数量
 		getCategories() {
-			// /home/articles-categories/articles-count
-			ajax('get', '/home/articles-categories')
+			this.categories_loading = true;
+			ajax('get', '/home/articles-categories/articles-count')
 				.then(({data}) => {
-					let temp = data.filter(d => d.pid === null);
+					const {article_count, articles_categories} = data;
+					this.article_count = article_count;
+					let temp = articles_categories.filter(d => d.pid === null);
 					temp.forEach(t => {
-						if (data.find(d => d.pid === t.id)) {
-							t['children'] = data.filter(d => d.pid === t.id);
+						if (articles_categories.find(d => d.pid === t.id)) {
+							t['children'] = articles_categories.filter(d => d.pid === t.id);
 						}
 					});
 					this.categories = temp;
+					this.categories_loading = false;
+				});
+		},
+		getKeywords() {
+			ajax('get', '/home/keywords')
+				.then(({data}) => {
+					// let map = new Map();
+					// data.forEach((item) => {
+					// 	let keywords = item.keywords.split(',');
+					// 	keywords.forEach(keyword => {
+					// 		if (map.has(keyword)) {
+					// 			let num = map.get(keyword);
+					// 			map.set(keyword, ++num);
+					// 		} else {
+					// 			map.set(keyword, 1);
+					// 		}
+					// 	});
+					// });
+					// this.keywords = map;
+					// for (let item of map.entries()) {
+					// 	console.log(`key: ${item[0]}, value: ${item[1]}`);
+					// }
+					this.keywords = {};
+					data.forEach((item) => {
+						let keywords = item.keywords.split(',');
+						keywords.forEach(keyword => {
+							if (this.keywords[keyword]) {
+								this.keywords[keyword] += 1;
+							} else {
+								this.keywords[keyword] = 1;
+							}
+						});
+					});
 				});
 		},
 		detail(id) {
@@ -150,6 +209,9 @@ export default {
 		cursor: pointer;
 		&:hover, &.cur {
 			color: #409EFF;
+		}
+		.num {
+			color: #c6c6c6;
 		}
 	}
 </style>
