@@ -5,7 +5,7 @@
 			<el-menu class="pull-right h100" :router="true" :default-active="$route.path" mode="horizontal" @select="nav">
 				<el-menu-item index="/article">文章</el-menu-item>
 				<el-menu-item index="/process">归档</el-menu-item>
-				<el-menu-item index="/about-me">关于我</el-menu-item>
+				<!-- <el-menu-item index="/about-me">关于我</el-menu-item> -->
 			</el-menu>
 		</el-header>
 		<el-main class="h100" style="padding: 10px 20px;">

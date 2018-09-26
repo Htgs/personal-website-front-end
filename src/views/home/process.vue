@@ -1,8 +1,33 @@
 <template>
 	<div class="h100 home-view">
-		<ul>
-			<li v-for=""></li>
-		</ul>
+		<el-collapse accordion>
+			<el-collapse-item
+				v-for="year in Year"
+				:key="year"
+				:title="year"
+				:name="year">
+				<el-collapse accordion>
+					<el-collapse-item
+						v-for="yearmonth in YearMonth"
+						:key="yearmonth"
+						:title="yearmonth"
+						:name="yearmonth">
+						<el-collapse accordion>
+							<el-collapse-item
+								v-for="(ymd, field) in YearMonthDate"
+								:key="field"
+								:title="field"
+								:name="field">
+								<div class="clearfix" v-for="(article, datetime) in ymd" :key="datetime">
+									<el-button class="pull-left" type="text" @click="$route.push(`/article/${article.id}`)">{{article.title}}</el-button>
+									<span class="pull-right" style="line-height: 40px;">{{datetime}}</span>
+								</div>
+							</el-collapse-item>
+						</el-collapse>
+					</el-collapse-item>
+				</el-collapse>
+			</el-collapse-item>
+		</el-collapse>
 	</div>
 </template>
 <script>
@@ -24,7 +49,6 @@ export default {
 		getReference() {
 			ajax('get', '/home/reference')
 				.then(({data}) => {
-					console.log(data);
 					let Year = new Set(),
 						YearMonth = new Set(),
 						YearMonthDate = {};
@@ -39,7 +63,7 @@ export default {
 							YearMonthDate[ymd] = {
 								...YearMonthDate[ymd],
 								[time]: item,
-							}
+							};
 						} else {
 							YearMonthDate[ymd] = {};
 							YearMonthDate[ymd][time] = item;

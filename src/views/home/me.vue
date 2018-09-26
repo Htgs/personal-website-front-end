@@ -1,6 +1,6 @@
 <template>
 	<div class="h100 home-view">
-		<ul class="w100 h100 about-me">
+		<!-- <ul class="w100 h100 about-me">
 			<li class="item w100 mb-10">
 				<h4>关于我</h4>
 				<div class="mt-10" v-html="me.about"></div>
@@ -9,6 +9,7 @@
 				<h4>技能</h4>
 				<div class="mt-10">
 					<el-row :gutter="20" class="mb-10" v-for="(skill, ky) in me.skills" :key="ky">
+						<el-col :span="6">a</el-col>
 						<el-col :span="3">{{skill.skill}}</el-col>
 						<el-col :span="10"><el-progress :percentage="skill.percent"></el-progress></el-col>
 					</el-row>
@@ -16,9 +17,10 @@
 			</li>
 			<li class="item w100">
 				<h4>项目</h4>
-				<!-- <div class="mt-10" v-html="me.project"></div> -->
+				<div class="mb-10" v-for="(project, ky) in me.project" :key="ky">
+				</div>
 			</li>
-		</ul>
+		</ul> -->
 	</div>
 </template>
 <script>
@@ -37,10 +39,11 @@ export default {
 	mounted() {
 		ajax('get', `/home/me/1`)
 			.then(({data}) => {
-				console.log(data);
-				this.me.about = data.about;
-				this.me.skills = JSON.parse(data.skill);
-				this.me.project = JSON.parse(data.project);
+				if (data) {
+					this.me.about = data.about;
+					this.me.skills = JSON.parse(data.skill);
+					this.me.project = JSON.parse(data.project);
+				}
 			});
 	},
 };

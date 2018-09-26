@@ -23,10 +23,19 @@
 			</el-card>
 			<!-- 分类end -->
 			<!-- 词云start -->
-			<el-card class="mt-10" shadow="never" :body-style="{height: '250px', padding: 0}">
+			<!-- <el-card class="mt-10" shadow="never" :body-style="{height: '250px', padding: 0}">
 				<TagCloud class="w100 h100" :tagsData="keywords" />
-			</el-card>
+			</el-card> -->
 			<!-- 词云end -->
+			<!-- 个人简介start -->
+			<el-card class="mt-10" shadow="never">
+				<div slot="header" class="clearfix">
+					<span>关于我</span>
+					<!-- <a class="pull-right" href="https://github.com/Htgs" target="_blank">github</a> -->
+				</div>
+				<p class="fz-14 mt-10" style="text-indent: 2em;">一个前端渣渣，会一点后台，搞过一下数据库。</p>
+			</el-card>
+			<!-- 个人简介end -->
 		</div>
 		<div class="pull-left h100"  style="width: 860px;">
 			<div class="relative ovh" style="height: calc(100% - 40px);" v-loading="loading" element-loading-text="加载中">

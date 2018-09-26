@@ -4,7 +4,7 @@ import Index from '@/views/home/index';
 import Articles from '@/views/home/articles';
 import Article from '@/views/home/article';
 import Process from '@/views/home/process';
-import Me from '@/views/home/me';
+// import Me from '@/views/home/me';
 import NotFound from '@/views/home/NotFound';
 
 module.exports = [
@@ -30,11 +30,11 @@ module.exports = [
 				name: 'process',
 				component: Process,
 			},
-			{
-				path: '/about-me',
-				name: 'me',
-				component: Me,
-			},
+			// {
+			// 	path: '/about-me',
+			// 	name: 'me',
+			// 	component: Me,
+			// },
 			{
 				path: '/NotFound',
 				name: 'NotFound',
