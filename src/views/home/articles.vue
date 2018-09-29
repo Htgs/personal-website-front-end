@@ -104,7 +104,7 @@ export default {
 		// 获取文章数据
 		this.getArticles();
 		// 获取文章的数量
-		this.getKeywords();
+		// this.getKeywords();
 	},
 	methods: {
 		transformTime,
