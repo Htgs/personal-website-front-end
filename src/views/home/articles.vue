@@ -158,38 +158,38 @@ export default {
 					this.categories_loading = false;
 				});
 		},
-		getKeywords() {
-			ajax('get', '/home/keywords')
-				.then(({data}) => {
-					// let map = new Map();
-					// data.forEach((item) => {
-					// 	let keywords = item.keywords.split(',');
-					// 	keywords.forEach(keyword => {
-					// 		if (map.has(keyword)) {
-					// 			let num = map.get(keyword);
-					// 			map.set(keyword, ++num);
-					// 		} else {
-					// 			map.set(keyword, 1);
-					// 		}
-					// 	});
-					// });
-					// this.keywords = map;
-					// for (let item of map.entries()) {
-					// 	console.log(`key: ${item[0]}, value: ${item[1]}`);
-					// }
-					this.keywords = {};
-					data.forEach((item) => {
-						let keywords = item.keywords.split(',');
-						keywords.forEach(keyword => {
-							if (this.keywords[keyword]) {
-								this.keywords[keyword] += 1;
-							} else {
-								this.keywords[keyword] = 1;
-							}
-						});
-					});
-				});
-		},
+		// getKeywords() {
+		// 	ajax('get', '/home/keywords')
+		// 		.then(({data}) => {
+		// 			// let map = new Map();
+		// 			// data.forEach((item) => {
+		// 			// 	let keywords = item.keywords.split(',');
+		// 			// 	keywords.forEach(keyword => {
+		// 			// 		if (map.has(keyword)) {
+		// 			// 			let num = map.get(keyword);
+		// 			// 			map.set(keyword, ++num);
+		// 			// 		} else {
+		// 			// 			map.set(keyword, 1);
+		// 			// 		}
+		// 			// 	});
+		// 			// });
+		// 			// this.keywords = map;
+		// 			// for (let item of map.entries()) {
+		// 			// 	console.log(`key: ${item[0]}, value: ${item[1]}`);
+		// 			// }
+		// 			this.keywords = {};
+		// 			data.forEach((item) => {
+		// 				let keywords = item.keywords.split(',');
+		// 				keywords.forEach(keyword => {
+		// 					if (this.keywords[keyword]) {
+		// 						this.keywords[keyword] += 1;
+		// 					} else {
+		// 						this.keywords[keyword] = 1;
+		// 					}
+		// 				});
+		// 			});
+		// 		});
+		// },
 		detail(id) {
 			this.$router.push(`/article/${id}`);
 		},
