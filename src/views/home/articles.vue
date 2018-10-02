@@ -70,11 +70,11 @@
 import { mavonEditor } from 'mavon-editor';
 import {ajax} from '../../utils/ajax.js';
 import {transformTime} from '../../utils/utils.js';
-import TagCloud from '../../components/TagCloud/index.vue';
+// import TagCloud from '../../components/TagCloud/index.vue';
 export default {
 	name: 'Articles',
 	components: {
-		TagCloud,
+		// TagCloud,
 	},
 	data() {
 		return {
